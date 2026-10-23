@@ -1,0 +1,195 @@
+T629C 000:004.154   SEGGER J-Link V9.42 Log File
+T629C 000:004.513   DLL Compiled: May  6 2026 12:25:27
+T629C 000:004.533   Logging started @ 2026-10-21 19:55
+T629C 000:004.551   Process: C:\Users\b3202733\.eclipse\com.renesas.platform_1584587709\DebugComp\RA\e2-server-gdb.exe
+T629C 000:004.575 - 4.570ms 
+T629C 000:004.609 JLINK_GetDLLVersion()
+T629C 000:004.627 - 0.019ms returns 94200
+T629C 000:018.236 JLINK_OpenEx(...)
+T629C 000:043.116   Firmware: J-Link OB-RA4M2 compiled May  6 2026 16:18:23
+T629C 000:044.217   Firmware: J-Link OB-RA4M2 compiled May  6 2026 16:18:23
+T629C 000:072.218   Hardware: V1.00
+T629C 000:072.357   S/N: 1084734582
+T629C 000:072.421   OEM: SEGGER
+T629C 000:072.490   Feature(s): None
+T629C 000:073.777   Bootloader: 2021 May 14
+T629C 000:074.924   USB speed mode: Full speed (12 MBit/s)
+T629C 000:075.811   TELNET listener socket opened on port 19021
+T629C 000:076.598   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T629C 000:077.128   WEBSRV Webserver running on local port 19080
+T629C 000:077.804   Looking for J-Link GUI Server exe at: C:\Users\b3202733\.eclipse\com.renesas.platform_1584587709\DebugComp\RA\ARM\Segger_v9.42.0\JLinkGUIServer.exe
+T629C 000:079.133   Looking for J-Link GUI Server exe at: C:\Program Files (x86)\SEGGER\JLink_V840\\JLinkGUIServer.exe
+T629C 000:079.441   Forking J-Link GUI Server: C:\Program Files (x86)\SEGGER\JLink_V840\\JLinkGUIServer.exe
+T629C 000:418.407   Failed to connect to J-Link GUI Server.
+T629C 000:418.540 - 400.299ms returns "O.K."
+T629C 000:418.928 JLINK_ExecCommand("ProjectFile=C:\Users\b3202733\e2_studio\workspace_6_pes_testing_release_unity\I2C_Sensor_Control_Int_Driven_FPB_RA6E2/I2C_Sensor_Control_Int_Driven_FPB_RA6E2 Debug_Flat.jlink", ...). 
+T629C 000:483.594 - 64.669ms returns 0x00
+T629C 000:484.206 JLINK_ExecCommand("device=R7FA6E2BB", ...). 
+T629C 000:488.033   Flash bank @ 0x0100A100: SFL: Parsing sectorization info from ELF file
+T629C 000:488.096     FlashDevice.SectorInfo[0]: .SectorSize = 0x00000010, .SectorStartAddr = 0x00000000
+T629C 000:488.123   FlashBank @0x0100A100: Sectorization info from SFL ELF file ignored because sectorization override from DLL / XML file is active.
+T629C 000:489.368   Flash bank @ 0x60000000: SFL: Parsing sectorization info from ELF file
+T629C 000:489.416     FlashDevice.SectorInfo[0]: .SectorSize = 0x00010000, .SectorStartAddr = 0x00000000
+T629C 000:492.978   Device "R7FA6E2BB" selected.
+T629C 000:495.048 - 10.841ms returns 0x00
+T629C 000:495.094 JLINK_TIF_GetAvailable(...)
+T629C 000:495.476 - 0.381ms 
+T629C 000:495.526 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T629C 000:497.909 - 2.385ms returns 0x00
+T629C 000:497.964 JLINK_SetSpeed(4000)
+T629C 000:498.071 - 0.108ms 
+T629C 000:498.720 JLINK_ExecCommand("SetCPUConnectIDCODE = FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", ...). 
+T629C 000:498.759 - 0.039ms returns 0x00
+T629C 000:498.793 JLINK_SetEndian(ARM_ENDIAN_LITTLE)
+T629C 000:498.811 - 0.018ms returns 0
+T629C 000:498.830 JLINK_SetInitRegsOnReset(OFF)
+T629C 000:498.848 - 0.018ms returns 1
+T629C 000:498.867 JLINK_SetResetType(JLINKARM_RESET_TYPE_NO_RESET)
+T629C 000:498.884 - 0.017ms returns JLINKARM_RESET_TYPE_NORMAL
+T629C 000:498.903 JLINK_ExecCommand("EnableFlashBPs", ...). 
+T629C 000:498.921 - 0.018ms returns 0x00
+T629C 000:498.941 JLINK_ExecCommand("SetAllowFlashCache = 1", ...). 
+T629C 000:498.958 - 0.017ms returns 0x01
+T629C 000:498.978 JLINK_ExecCommand("SetRestartOnClose = 0", ...). 
+T629C 000:498.996 - 0.018ms returns 0x01
+T629C 000:499.014 JLINK_ExecCommand("SetAllowSimulation = 0", ...). 
+T629C 000:499.032 - 0.018ms returns 0x00
+T629C 000:499.051 JLINK_EnableSoftBPs(ON)
+T629C 000:499.068 - 0.017ms 
+T629C 000:499.086 JLINK_Connect()
+T629C 000:501.904   ConfigTargetSettings() start
+T629C 000:502.021    J-Link Script File: Executing ConfigTargetSettings()
+T629C 000:502.046   Configuring FlashDLNoRMWThreshold=0x200 in order to make sure that option bytes programming is done via read-modify-write
+T629C 000:764.233   ConfigTargetSettings() end - Took 262ms
+T629C 000:764.439   InitTarget() start
+T629C 000:764.701    J-Link Script File: Executing InitTarget()
+T629C 000:764.863   SWD selected. Executing JTAG -> SWD switching sequence.
+T629C 000:769.622   DAP initialized successfully.
+T629C 000:773.054   Authentication not required. Skipping authentication process.
+T629C 000:773.338   Determining TrustZone configuration...
+T629C 000:774.942     Secure Debug: Enabled (SSD)
+T629C 000:775.245   Determining currently configured transfer type by reading the AHB-AP CSW register.
+T629C 000:776.668     --> Correct transfer type configured. Done.
+T629C 000:776.953   InitTarget() end - Took 12.2ms
+T629C 000:778.092   Found SW-DP with ID 0x6BA02477
+T629C 000:781.423   DPIDR: 0x6BA02477
+T629C 000:781.736   CoreSight SoC-400 or earlier
+T629C 000:781.908   Scanning AP map to find all available APs
+T629C 000:783.337   AP[2]: Stopped AP scan as end of AP map has been reached
+T629C 000:783.638   AP[0]: AHB-AP (IDR: 0x84770001, ADDR: 0x00000000)
+T629C 000:783.812   AP[1]: APB-AP (IDR: 0x54770002, ADDR: 0x01000000)
+T629C 000:784.146   Iterating through AP map to find AHB-AP to use
+T629C 000:785.357   AP[0]: Core found
+T629C 000:785.617   AP[0]: AHB-AP ROM base: 0xE00FE000
+T629C 000:786.284   CPUID register: 0x410FD214. Implementer code: 0x41 (ARM)
+T629C 000:786.633   Feature set: Mainline
+T629C 000:787.338   Cache: No cache
+T629C 000:787.470   Found Cortex-M33 r0p4, Little endian.
+T629C 000:788.554   -- Max. mem block: 0x0001D8F8
+T629C 000:789.406   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T629C 000:790.053   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T629C 000:790.568   CPU_ReadMem(4 bytes @ 0xE0002000)
+T629C 000:790.999   FPUnit: 8 code (BP) slots and 0 literal slots
+T629C 000:791.079   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T629C 000:791.520   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T629C 000:791.995   CPU_ReadMem(4 bytes @ 0xE0001000)
+T629C 000:792.387   CPU_ReadMem(4 bytes @ 0xE0001000)
+T629C 000:792.751   CPU_ReadMem(4 bytes @ 0xE0001028)
+T629C 000:793.167   CPU_ReadMem(4 bytes @ 0xE0001038)
+T629C 000:793.652   CPU_ReadMem(4 bytes @ 0xE0001048)
+T629C 000:794.066   CPU_ReadMem(4 bytes @ 0xE0001058)
+T629C 000:794.409   CPU_WriteMem(4 bytes @ 0xE0001000)
+T629C 000:794.808   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T629C 000:795.349   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T629C 000:795.831   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T629C 000:796.234   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T629C 000:796.689   CPU_ReadMem(4 bytes @ 0xE000EFB8)
+T629C 000:797.290   Security extension: implemented
+T629C 000:797.326   Secure debug: enabled
+T629C 000:797.353   CoreSight components:
+T629C 000:797.379   ROMTbl[0] @ E00FE000
+T629C 000:797.407   CPU_ReadMem(64 bytes @ 0xE00FE000)
+T629C 000:798.100   CPU_ReadMem(32 bytes @ 0xE0044FE0)
+T629C 000:798.624   CPU_ReadMem(4 bytes @ 0xE0044FBC)
+T629C 000:799.015   CPU_ReadMem(4 bytes @ 0xE0044FCC)
+T629C 000:799.425   [0][0]: E0044000 CID B105900D PID 005BB906 DEVARCH 00000000 DEVTYPE 14 CTI (?)
+T629C 000:799.560   CPU_ReadMem(32 bytes @ 0xE0047FE0)
+T629C 000:800.056   CPU_ReadMem(4 bytes @ 0xE0047FBC)
+T629C 000:800.498   CPU_ReadMem(4 bytes @ 0xE0047FCC)
+T629C 000:800.941   [0][1]: E0047000 CID B105900D PID 003BB908 DEVARCH 00000000 DEVTYPE 12 CSTF
+T629C 000:801.077   CPU_ReadMem(32 bytes @ 0xE0048FE0)
+T629C 000:801.602   CPU_ReadMem(4 bytes @ 0xE0048FBC)
+T629C 000:802.014   CPU_ReadMem(4 bytes @ 0xE0048FCC)
+T629C 000:802.384   [0][2]: E0048000 CID B105900D PID 001BB961 DEVARCH 00000000 DEVTYPE 21 TMC
+T629C 000:802.460   CPU_ReadMem(32 bytes @ 0xE0049FE0)
+T629C 000:802.992   [0][3]: E0049000 CID B105F00D PID 001BB101 TSG
+T629C 000:803.034   CPU_ReadMem(32 bytes @ 0xE0040FE0)
+T629C 000:803.530   CPU_ReadMem(4 bytes @ 0xE0040FBC)
+T629C 000:803.890   CPU_ReadMem(4 bytes @ 0xE0040FCC)
+T629C 000:804.187   [0][4]: E0040000 CID B105900D PID 000BBD21 DEVARCH 00000000 DEVTYPE 11 TPIU
+T629C 000:804.219   CPU_ReadMem(32 bytes @ 0xE00FFFE0)
+T629C 000:804.683   [0][5]: E00FF000 CID B105100D PID 000BB4C9 ROM Table
+T629C 000:804.712   ROMTbl[1] @ E00FF000
+T629C 000:804.739   CPU_ReadMem(64 bytes @ 0xE00FF000)
+T629C 000:805.422   CPU_ReadMem(32 bytes @ 0xE000EFE0)
+T629C 000:805.918   CPU_ReadMem(4 bytes @ 0xE000EFBC)
+T629C 000:806.305   CPU_ReadMem(4 bytes @ 0xE000EFCC)
+T629C 000:806.690   [1][0]: E000E000 CID B105900D PID 000BBD21 DEVARCH 47702A04 DEVTYPE 00 Cortex-M33
+T629C 000:806.763   CPU_ReadMem(32 bytes @ 0xE0001FE0)
+T629C 000:807.312   CPU_ReadMem(4 bytes @ 0xE0001FBC)
+T629C 000:807.659   CPU_ReadMem(4 bytes @ 0xE0001FCC)
+T629C 000:807.982   [1][1]: E0001000 CID B105900D PID 000BBD21 DEVARCH 47701A02 DEVTYPE 00 DWT
+T629C 000:808.014   CPU_ReadMem(32 bytes @ 0xE0002FE0)
+T629C 000:808.481   CPU_ReadMem(4 bytes @ 0xE0002FBC)
+T629C 000:808.783   CPU_ReadMem(4 bytes @ 0xE0002FCC)
+T629C 000:809.188   [1][2]: E0002000 CID B105900D PID 000BBD21 DEVARCH 47701A03 DEVTYPE 00 FPB
+T629C 000:809.262   CPU_ReadMem(32 bytes @ 0xE0000FE0)
+T629C 000:809.761   CPU_ReadMem(4 bytes @ 0xE0000FBC)
+T629C 000:810.310   CPU_ReadMem(4 bytes @ 0xE0000FCC)
+T629C 000:810.751   [1][3]: E0000000 CID B105900D PID 000BBD21 DEVARCH 47701A01 DEVTYPE 43 ITM
+T629C 000:810.812   CPU_ReadMem(32 bytes @ 0xE0041FE0)
+T629C 000:811.403   CPU_ReadMem(4 bytes @ 0xE0041FBC)
+T629C 000:811.787   CPU_ReadMem(4 bytes @ 0xE0041FCC)
+T629C 000:812.157   [1][5]: E0041000 CID B105900D PID 002BBD21 DEVARCH 47724A13 DEVTYPE 13 ETM
+T629C 000:812.197   CPU_ReadMem(32 bytes @ 0xE0042FE0)
+T629C 000:812.655   CPU_ReadMem(4 bytes @ 0xE0042FBC)
+T629C 000:813.026   CPU_ReadMem(4 bytes @ 0xE0042FCC)
+T629C 000:813.481   [1][6]: E0042000 CID B105900D PID 000BBD21 DEVARCH 47701A14 DEVTYPE 14 CSS600-CTI
+T629C 000:813.610 - 314.522ms returns 0x00
+T629C 000:813.674 JLINK_Halt()
+T629C 000:817.433 - 3.758ms returns 0x00
+T629C 000:817.504 JLINK_IsHalted()
+T629C 000:817.843 - 0.338ms returns TRUE
+T629C 000:817.896 JLINK_ResetPullsRESET(ON)
+T629C 000:817.914 - 0.018ms 
+T629C 000:817.935 JLINK_Reset()
+T629C 000:817.968   JLINK_GetResetTypeDesc
+T629C 000:817.987   - 0.018ms 
+T629C 000:818.005   Reset type: CONNECT UNDER RESET (https://kb.segger.com/J-Link_Reset_Strategies)
+T629C 000:818.029   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T629C 000:818.316   CPU_ReadMem(4 bytes @ 0xE000ED44)
+T629C 000:818.661   CPU_ReadMem(4 bytes @ 0xE000EE08)
+T629C 000:818.982   CPU_WriteMem(4 bytes @ 0xE000EE08)
+T629C 000:819.397   CPU_ReadMem(4 bytes @ 0xE000EE08)
+T629C 000:819.725   Reset: ARMv8M core with Security Extension enabled detected. Switch to secure domain.
+T629C 000:819.755   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T629C 000:820.086   Reset: Halt core after reset via DEMCR.VC_CORERESET.
+T629C 000:820.579   Reset: Reset device via AIRCR.SYSRESETREQ.
+T629C 000:820.676   CPU_WriteMem(4 bytes @ 0xE000ED0C)
+T629C 000:878.843   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T629C 000:879.728   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T629C 000:880.472   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T629C 000:886.930   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T629C 000:891.671   CPU_WriteMem(4 bytes @ 0xE0002000)
+T629C 000:892.367   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T629C 000:892.920   CPU_ReadMem(4 bytes @ 0xE0001000)
+T629C 000:893.490   CPU_ReadMem(4 bytes @ 0xE000EE08)
+T629C 000:893.924 - 75.987ms 
+T629C 000:894.070 JLINK_ReadMem(0x010080F0, 0x10 Bytes, ...)
+T629C 000:894.118   CPU_ReadMem(16 bytes @ 0x010080F0)
+T629C 000:894.563   Data:  52 37 46 41 34 45 32 42 39 33 43 46 4D 20 20 20
+T629C 000:894.620 - 0.550ms returns 0
+T629C 008:413.852 JLINK_Close()
+T629C 008:438.744 - 24.889ms
+T629C 008:438.946   
+T629C 008:439.010   Closed

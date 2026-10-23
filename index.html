@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.12.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>READMe</title>
+  <style>
+
+html {
+color: #1a1a1a;
+color: light-dark(#1a1a1a, #fdfdfd);
+background-color: #fdfdfd;
+background-color: light-dark(#fdfdfd, #1a1a1a);
+color-scheme: light dark;
+}
+body {
+margin: 0 auto;
+max-width: none;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+color-scheme: light only;
+}
+html, body, pre, code {
+background-color: transparent;
+}
+body, a, a:visited, blockquote {
+color: black;
+}
+pre, code {
+padding: 0;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a, a:visited {
+color: inherit;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid;
+border-color: #e6e6e6;
+border-color: light-dark(#e6e6e6, #4c4c4c);
+color: #606060;
+color: light-dark(#606060, #b6b6b6);
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid currentColor;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid currentColor;
+border-bottom: 1px solid currentColor;
+}
+th {
+border-top: 1px solid currentColor;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<h1 id="rs-i2c-controller-with-interrupt-driven-control">RS I2C
+Controller with Interrupt-Driven Control</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2-hardware-and-tool-support">2. Hardware and Tool
+Support</a></li>
+<li><a href="#3-mcu-resource-use">3. MCU Resource Use</a></li>
+<li><a href="#4-hardware-block-diagram">4. Hardware Block
+Diagram</a></li>
+<li><a href="#5-system-block-diagram">5. System Block Diagram</a></li>
+<li><a href="#6-rs_i2c_if-module-and-sensor-driver-integration">6.
+rs_i2c_if Module and Sensor Driver Integration</a></li>
+<li><a href="#7-module-layer-code-and-demonstration-code">7.
+Module-Layer Code and Demonstration Code</a></li>
+<li><a href="#8-reference-application">8. Reference Application</a></li>
+<li><a href="#9-configuration-assumptions-for-the-reference-board">9.
+Configuration Assumptions for the Reference Board</a></li>
+<li><a href="#10-public-functions--where-to-start">10. Public Function -
+Where to Start</a></li>
+<li><a href="#11-running-the-project-and-expected-output">11. Running
+the Project and Expected Output</a></li>
+</ul>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>This project demonstrates an interrupt-driven I2C interface between a
+Renesas RA MCU and the QCIOT-ICM42671POCZ motion sensor module. Upon
+detecting motion, the sensor asserts an interrupt on the MCU’s IRQ line.
+The MCU interrupt handler then triggers an I2C transaction to read
+sensor data, providing a responsive and efficient event-driven sensing
+solution.</p>
+<h3 id="project-structure">Project Structure</h3>
+<pre><code>.
+├── index.htm / docs/README.md
+│   └── Documentation for the I2C controller module with interrupt control   
+│        
+├── Examples
+│   └── VSCode
+│       │   
+│       │── I2C_Motion_Sensor_Control_FPB_RA6E2
+│       │    └── Interrupt-driven I2C motion sensor data acquisition for FPB-RA6E2
+│       │── I2C_Motion_Sensor_Control_FPB_RA4E2
+│       │    └── Interrupt-driven I2C motion sensor data acquisition for FPB-RA4E2
+│       │── I2C_Motion_Sensor_Control_FPB_RA2E3
+│       │    └── Interrupt-driven I2C motion sensor data acquisition for FPB-RA2E3
+│       │
+│       └── executable
+│            └── Executables for the demo projects
+├── src
+│   │── demo
+│   │    └── Demonstration projects
+│   │ 
+│   │── rm_icm42670
+│   │    └── Driver for QCIOT-ICM42671POCZ motion sensor
+│   │ 
+│   │── config   
+│   │    └── Module configuration settings
+│   │       
+│   │── sensor_ctrl
+│   │    └── Sensor control functions - Single entry function
+│   │ 
+│   │── rs_i2c_if.c
+│   │        └── I2C controller module main source code
+│   │── rs_i2c_if_ra.c
+│   │        └── I2C controller module private function
+│   └── rs_i2c_if.h
+│           └── I2C controller module header file
+│   </code></pre>
+<h2 id="2-hardware-and-tool-support">2. Hardware and Tool Support</h2>
+<table>
+<thead>
+<tr>
+<th>Hardware Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference Board</td>
+<td>FPB-RA6E2, FPB-RA4E2, FPB-RA2E3</td>
+</tr>
+<tr>
+<td>Device Family</td>
+<td>RA6E2, RA4E2, RA2E3</td>
+</tr>
+<tr>
+<td>External Hardware</td>
+<td>QCIOT-ICM42671POCZ</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>IDE Tool/RTOS/FSP</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IDE / Tool</td>
+<td>VS Code/Renesas extensions for VS Code</td>
+</tr>
+<tr>
+<td>FSP</td>
+<td>v6.5.0</td>
+</tr>
+<tr>
+<td>RTOS</td>
+<td>FreeRTOS, Bare Metal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-mcu-resource-use">3. MCU Resource Use</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2C Controller Driver</td>
+<td>R_IIC_B_MASTER, R_IIC_MASTER</td>
+</tr>
+<tr>
+<td>External Interrupt</td>
+<td>R_ICU</td>
+</tr>
+<tr>
+<td>Board I/O</td>
+<td>R_IOPORT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-hardware-block-diagram">4. Hardware Block Diagram</h2>
+<pre><code>            +--------------------------------+
+            |      RA MCU                    |
+            | I2C Controller + ICU controller|
+            +------------+-----------+-------+
+                         |           ^
+                   VCC   |  VCC      |
+                    |    |   |       |
+                  [2.2K] | [2.2K]    |
+                     |   |   |       |
+                   SDA --+--SCL     IRQ
+                         |           |
+                         +-----+-----+
+                               |                   
+                               |                   
+                        +------+------+    
+                        |Motion Sensor|    
+                        |             |           
+                        +-------------+    </code></pre>
+<h2 id="5-system-block-diagram">5. System Block Diagram</h2>
+<p>The sofware building block(SBB) provides a generic, reusable I2C
+sensor-access framework that simplifies application-level interaction
+with multiple I2C sensors, isolates sensor-specific drivers from
+hardware-dependent implementations, supports interrupt-driven sensor
+data acquisition, improves portability and scalability when adding
+sensors, and reduces application complexity through a single
+sensor-access interface.</p>
+<pre><code>+----------------------------------------+        
+|       User Application / Demo          |
++-------------------+--------------------+
+                    ^
+                    |
+                    v
++-------------------+--------------------+
+|      I2C control instance              |
+|   +---------------------------------+  |
+|   |Sensor access function:          |  |
+|   | - Single Entry Point function   |  |
+|   | - Set device configuration      |  |
+|   | - Device start/stop             |  |
+|   | - Interrupt trigger             |  |
+|   | - Read device data              |  |
+|   +---------------+-----------------+  |
+|                   ^                    |
+|                   |                    |
+|                   v                    |
+|   +---------------+-----------------+  |
+|   | I2C generic driver/bus level:   |  |
+|   | - I2C device access functions   |  |
+|   +---------------+-----------------+  |
++-------------------+--------------------+ 
+                    ^             
+                    |
+                    v
++-------------------+--------------------+
+|         I2C HAL Layer/IRQ HAL Layer    |
+|            r_iic_master/r_icu          |
++----------------------------------------+
+                    ^             
+                    | I2C + Interrupt
+                    v 
++-------------------+--------------------+
+|            QCIOT-ICM42671POCZ          | 
++----------------------------------------+ </code></pre>
+<h2 id="6-rs_i2c_if-module-and-sensor-driver-integration">6.
+<code>rs_i2c_if</code> Module and Sensor Driver Integration</h2>
+<h3 id="61-overview">6.1. Overview</h3>
+<p>These modules form a layered sensor-control architecture:</p>
+<blockquote>
+<p><strong><code>sensor_ctrl</code> provides the generic sensor
+interface, a <code>specific sensor driver</code> implements
+sensor-specific behavior, and <code>rs_i2c_if</code> provides I2C
+communication and shared-bus management.</strong></p>
+</blockquote>
+<p>The application should normally access the sensor through
+<code>sensor_ctrl</code>. A sensor implementation will perform register
+transfers through <code>g_rs_i2c_if_device</code>.</p>
+<h3 id="62-module-relationship">6.2. Module Relationship</h3>
+<pre class="text"><code>Application
+    |
+    v
+sensor_ctrl&#39;s single entry function
+    |
+    v
+sensor-specific driver
+    |
+    v
+g_rs_i2c_if_device
+    +-- p_ctrl --&gt; g_rs_i2c_if_device_ctrl
+    +-- p_cfg  --&gt; g_rs_i2c_if_device_cfg
+    |               +-- p_lower_level_cfg --&gt; address and FSP callback
+    |               +-- p_extend ---------&gt; shared-bus configuration
+    +-- p_api  --&gt; g_comms_on_rs_i2c_if
+                         |
+                         v
+                    FSP HAL I2C driver</code></pre>
+<h3 id="63-module-responsibilities">6.3. Module Responsibilities</h3>
+<h4 id="631-sensor_ctrl">6.3.1. <code>sensor_ctrl</code></h4>
+<p><code>sensor_ctr</code> is an application-facing sensor abstraction
+layer. It stores or references the selected sensor driver’s control,
+configuration, and API objects, allowing application code to initialize,
+configure, and read the sensor without directly depending on a
+sensor-specific driver implementation. It also provides a single-entry
+interface for sensor operations, isolating sensor-specific
+implementation details from the application. The
+<code>sensor_ctrl</code> dispatches generic sensor operations to the
+selected sensor-specific driver.</p>
+<h4 id="rs_i2c_if_sensor_ctrl_t"><code>rs_i2c_if_sensor_ctrl_t</code></h4>
+<h4 id="overview">Overview</h4>
+<p><code>rs_i2c_if_sensor_ctrl_t</code> is the SRAM-resident runtime
+container used by <code>rs_i2c_if_SensorDataRead()</code>. It groups the
+writable I2C, sensor-driver, external-interrupt, read-context, and
+sensor-data objects required for one sensor instance.</p>
+<p>Read-only API tables remain in <strong>Flash</strong> and are
+referenced by the corresponding instance objects.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> st_rs_i2c_if_sensor_ctrl</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_instance_t                   i2c_instance<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_instance_ctrl_t              i2c_ctrl<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_cfg_t                        i2c_cfg<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    i2c_master_cfg_t                       i2c_hal_cfg<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_bus_extended_cfg_t           i2c_bus_cfg<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    sensor_specific_driver_instance_t      sensor_instance<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    sensor_specific_driver_instance_ctrl_t sensor_ctrl<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    sensor_specific_driver_cfg_t           sensor_cfg<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    external_irq_instance_t                irq_instance<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    icu_instance_ctrl_t                    irq_ctrl<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    external_irq_cfg_t                     irq_cfg<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_sensor_read_context_t        sensor_context<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    sensor_specific_driver_data_t          sensor_data<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> rs_i2c_if_sensor_ctrl_t<span class="op">;</span></span></code></pre></div>
+<h4 id="object-groups">Object Groups</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Group</th>
+<th>Members</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2C controller</td>
+<td><code>i2c_instance</code>, <code>i2c_ctrl</code>,
+<code>i2c_cfg</code>, <code>i2c_hal_cfg</code>,
+<code>i2c_bus_cfg</code></td>
+<td>Maintains the I2C interface, runtime control, and configuration</td>
+</tr>
+<tr>
+<td>Sensor-specific driver</td>
+<td><code>sensor_instance</code>, <code>sensor_ctrl</code>,
+<code>sensor_cfg</code></td>
+<td>Maintains the sensor-speicific driver instance, runtime state, and
+sensor configuration</td>
+</tr>
+<tr>
+<td>External IRQ</td>
+<td><code>irq_instance</code>, <code>irq_ctrl</code>,
+<code>irq_cfg</code></td>
+<td>Provides the external interrupt instance, control block, and
+configuration</td>
+</tr>
+<tr>
+<td>Sensor read</td>
+<td><code>sensor_context</code>, <code>sensor_data</code></td>
+<td>Maintains the generic read context and destination for acquired
+sensor data</td>
+</tr>
+</tbody>
+</table>
+<h4 id="memory-organization">Memory Organization</h4>
+<ul>
+<li><strong>SRAM:</strong> Runtime control blocks, mutable
+configurations, read context, and sensor data.</li>
+<li><strong>Flash:</strong> Read-only I2C, sensor, and external-IRQ API
+tables.</li>
+</ul>
+<p>This organization keeps writable runtime state in SRAM without
+unnecessarily copying constant API tables from Flash.</p>
+<h4 id="architecture-role">Architecture Role</h4>
+<pre class="text"><code>Application
+  -&gt; Sensor Control
+    -&gt; Sensor-Specific Driver
+      -&gt; rs_i2c_if
+        -&gt; I2C HAL
+          -&gt; Sensor</code></pre>
+<p><code>rs_i2c_if_sensor_ctrl_t</code> consolidates the runtime state
+required by this path into one object, supporting an application-facing,
+single-entry sensor interface while keeping sensor-specific and
+lower-level I2C implementation details below the application layer.</p>
+<h4 id="632-sensor-specific-driver">6.3.2.
+<code>Sensor-specific driver</code></h4>
+<p>The <code>Sensor-specific driver</code> implements a sensor-specific
+operations, including:</p>
+<ul>
+<li>Device initialization and reset;</li>
+<li>Register configuration;</li>
+<li>Interrupt configuration;</li>
+<li>Acceleration-data acquisition;</li>
+<li>Raw-data conversion; and</li>
+<li>Sensor-specific communication-event handling.</li>
+</ul>
+<p>Its configuration should reference <code>g_rs_i2c_if_device</code> as
+the communication interface. It should not directly access the FSP I2C
+instance, mutex, semaphore, or shared-bus state.</p>
+<h4 id="633-rs_i2c_if">6.3.3. <code>rs_i2c_if</code></h4>
+<p><code>rs_i2c_if</code> provides the generic transport layer. It
+owns:</p>
+<ul>
+<li>The FSP I2C driver connection;</li>
+<li>Device addressing;</li>
+<li>Interrupt-driven transfer completion;</li>
+<li>Shared-bus locking;</li>
+<li>RTOS semaphore synchronization;</li>
+<li>Bus timeout handling; and</li>
+<li>Bus reconfiguration when multiple devices share one peripheral.</li>
+</ul>
+<h4 id="freertos-synchronization-objects">FreeRTOS synchronization
+objects</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#if BSP_CFG_RTOS == 2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>SemaphoreHandle_t g_rs_i2c_if_bus_recursive_mutex_handle<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>StaticSemaphore_t g_rs_i2c_if_bus_recursive_mutex_memory<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>SemaphoreHandle_t g_rs_i2c_if_bus_blocking_semaphore_handle<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>StaticSemaphore_t g_rs_i2c_if_bus_blocking_semaphore_memory<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>rs_i2c_if_mutex_t g_rs_i2c_if_bus_recursive_mutex <span class="op">=</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_mutex_handle <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_recursive_mutex_handle<span class="op">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_mutex_memory <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_recursive_mutex_memory<span class="op">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>rs_i2c_if_semaphore_t g_rs_i2c_if_bus_blocking_semaphore <span class="op">=</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_semaphore_handle <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_blocking_semaphore_handle<span class="op">,</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_semaphore_memory <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_blocking_semaphore_memory<span class="op">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span></code></pre></div>
+<p><code>rs_i2c_if_ctrl_Open()</code> creates these static objects once.
+The recursive mutex serializes access to the shared bus, while the
+semaphore synchronizes a waiting task with the I2C completion callback.
+Neither <code>sensor_ctrl</code> nor <code>sensor-specific driver</code>
+accesses these objects directly.</p>
+<h4 id="shared-bus-configuration">Shared-bus configuration</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rs_i2c_if_bus_extended_cfg_t g_rs_i2c_if_bus_extended_cfg <span class="op">=</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#if RS_I2C_IF_CFG_PRESET_USE</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_driver_instance       <span class="op">=</span> <span class="op">(</span><span class="dt">void</span> <span class="op">*)</span> <span class="op">&amp;</span>g_i2c_preset<span class="op">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#else</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_driver_instance       <span class="op">=</span> <span class="op">(</span><span class="dt">void</span> <span class="op">*)</span> <span class="op">&amp;</span>g_i2c<span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_current_ctrl          <span class="op">=</span> NULL<span class="op">,</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>bus_timeout             <span class="op">=</span> RS_I2C_IF_BUS_TIMEOUT_TICKS<span class="op">,</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#if BSP_CFG_RTOS == 2</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_blocking_semaphore    <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_blocking_semaphore<span class="op">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_bus_recursive_mutex   <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_recursive_mutex<span class="op">,</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_elc                   <span class="op">=</span> NULL<span class="op">,</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_timer                 <span class="op">=</span> NULL<span class="op">,</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>This structure describes resources shared by all logical devices on
+the physical I2C bus. Device configurations reference it through
+<code>p_extend</code>.</p>
+<h4 id="device-runtime-control">Device runtime control</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rs_i2c_if_instance_ctrl_t g_rs_i2c_if_device_ctrl<span class="op">;</span></span></code></pre></div>
+<p>This object stores mutable runtime state for the sensor communication
+instance. It is managed by <code>rs_i2c_if</code> and is not modified
+directly by <code>sensor_ctrl</code> or
+<code>sensor-specific driver</code>.</p>
+<h4 id="lower-level-device-configuration">Lower-level device
+configuration</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> i2c_master_cfg_t g_rs_i2c_if_device_lower_level_cfg <span class="op">=</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>slave      <span class="op">=</span> SENSOR_ADDRESS<span class="op">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>addr_mode  <span class="op">=</span> I2C_MASTER_ADDR_MODE_7BIT<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_callback <span class="op">=</span> rs_i2c_if_callback<span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>This FSP-level configuration defines the sensor I2C address and
+routes lower-level transfer events to
+<code>rs_i2c_if_callback()</code>.</p>
+<h3 id="device-configuration">Device configuration</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> rs_i2c_if_cfg_t g_rs_i2c_if_device_cfg <span class="op">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>semaphore_timeout <span class="op">=</span> <span class="bn">0xFFFFFFFF</span><span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_lower_level_cfg <span class="op">=</span> <span class="op">(</span><span class="dt">void</span> <span class="op">*)</span> <span class="op">&amp;</span>g_rs_i2c_if_device_lower_level_cfg<span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_extend          <span class="op">=</span> <span class="op">(</span><span class="dt">void</span> <span class="op">*)</span> <span class="op">&amp;</span>g_rs_i2c_if_bus_extended_cfg<span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_callback        <span class="op">=</span> sensor_driver_callback<span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_context         <span class="op">=</span> NULL<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>This object connects the sensor-specific I2C settings to the shared
+bus. It also defines the blocking timeout and the callback used by the
+sensor driver. Use <code>.p_context = NULL</code> when no callback
+context is required.</p>
+<h4 id="complete-communication-instance">Complete communication
+instance</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> rs_i2c_if_instance_t g_rs_i2c_if_device <span class="op">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_ctrl <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_device_ctrl<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_cfg  <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_device_cfg<span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>p_api  <span class="op">=</span> <span class="op">&amp;</span>g_comms_on_rs_i2c_if<span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>This is the transport instance consumed by the
+<code>sensor-specific driver</code>. A sensor-driver configuration can
+reference it as follows:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>p_comms_instance <span class="op">=</span> <span class="op">&amp;</span>g_rs_i2c_if_device<span class="op">,</span></span></code></pre></div>
+<p>The <code>sensor_ctrl</code> reaches this instance indirectly through
+the <code>sensor-specific driver</code>.</p>
+<h3 id="64-callback-roles">6.4. Callback Roles</h3>
+<ul>
+<li><code>rs_i2c_if_callback()</code> handles lower-level FSP I2C
+events, records transfer status, and signals the completion
+semaphore.</li>
+<li><code>sensor_driver_callback()</code> receives communication events
+at the sensor-specific driver layer.</li>
+<li>A <code>sensor_ctrl</code> callback, when supported, reports
+completed sensor operations or sensor events to the application without
+exposing the I2C callback details.</li>
+</ul>
+<pre class="text"><code>FSP I2C ISR
+     |
+     v
+rs_i2c_if_callback()
+     |
+     v
+sensor_specific_driver_callback()
+     |
+     v
+sensor_ctrl callback (when supported)
+     |
+     v
+Application</code></pre>
+<h3 id="65-ownership-summary">6.5. Ownership Summary</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Object or layer</th>
+<th>Owner and purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sensor_ctrl</code> instance</td>
+<td>Generic application-facing sensor interface.</td>
+</tr>
+<tr>
+<td><code>sensor-specific driver</code> control/configuration</td>
+<td>sensor runtime state and sensor-specific settings.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_bus_recursive_mutex</code></td>
+<td><code>rs_i2c_if</code>; protects shared-bus access.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_bus_blocking_semaphore</code></td>
+<td><code>rs_i2c_if</code>; signals transfer completion.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_bus_extended_cfg</code></td>
+<td><code>rs_i2c_if</code>; describes shared physical-bus
+resources.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_device_ctrl</code></td>
+<td><code>rs_i2c_if</code>; stores mutable communication state.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_device_lower_level_cfg</code></td>
+<td>FSP boundary; defines device address and callback.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_device_cfg</code></td>
+<td><code>rs_i2c_if</code>; connects device and bus configurations.</td>
+</tr>
+<tr>
+<td><code>g_rs_i2c_if_device</code></td>
+<td>Transport interface exposed to
+<code>sensor-specific driver</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="66-runtime-flow">6.6. Runtime Flow</h3>
+<ol type="1">
+<li>The application calls a generic <code>sensor_ctrl</code>
+operation.</li>
+<li><code>sensor_ctrl</code> dispatches the request to the
+<code>sensor-specific driver</code> implementation.</li>
+<li><code>sensor-specific driver</code> prepares the required
+sensor-register transaction.</li>
+<li>The driver calls the API exposed by
+<code>g_rs_i2c_if_device</code>.</li>
+<li><code>rs_i2c_if</code> locks the shared bus and applies the device
+configuration.</li>
+<li>The FSP I2C driver starts the transfer.</li>
+<li><code>rs_i2c_if_callback()</code> records completion and signals the
+semaphore.</li>
+<li><code>rs_i2c_if</code> returns the transfer result and releases the
+bus mutex.</li>
+<li><code>sensor-specific driver</code> interprets the sensor data and
+returns it through <code>sensor_ctrl</code>.</li>
+<li>The application receives sensor data through the generic
+interface.</li>
+</ol>
+<p>This separation allows another sensor driver to replace
+<code>sensor-specific driver</code> while preserving the
+application-facing <code>sensor_ctrl</code> interface and reusing the
+same <code>rs_i2c_if</code> transport layer.</p>
+<h2 id="7-module-layer-code-and-demonstration-code">7.
+<code>module-layer</code> Code and Demonstration Code</h2>
+<p>The following table identifies which files are reusable
+<code>module-layer</code> code and which belong only to the reference or
+demo application layer.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Files</th>
+<th>Purpose</th>
+<th>Reuse Expectation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/rs_i2c_if.c</code></td>
+<td>Lifecycle state machine; all public function entry points</td>
+<td></td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/rs_i2c_if_ra.c</code></td>
+<td>private functions</td>
+<td>Include directly; do not modify</td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/rs_i2c_if.h</code></td>
+<td>Public interface header — all public function prototypes</td>
+<td>Include directly; do not modify</td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.h</code></td>
+<td>Standard module configurations</td>
+<td>Include directly; modify as needed to support the lower-level
+driver</td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.c</code></td>
+<td>Public/private functions for sensor-specific driver support</td>
+<td>Modify to support a specific sensor driver</td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/config/rs_i2c_if_cfg_data.h</code></td>
+<td>Public interface header for module configurations</td>
+<td>Include directly; do not modify</td>
+</tr>
+<tr>
+<td><code>module-layer</code></td>
+<td><code>src/rs_i2c_if/config/rs_i2c_if_cfg_data.c</code></td>
+<td>Standard configurations for the module</td>
+<td>Include directly; modify to adapt to lower-level driver when
+needed</td>
+</tr>
+<tr>
+<td><code>Preset Config</code></td>
+<td><code>src/rs_i2c_if/config/rs_i2c_if_cfg_data_fpb_ra4e2_fpb_ra6e2.c/.h</code></td>
+<td>Pre-built HAL instance definitions for FPB-RA4E2/FPB-RA6E2; aliased
+to FSP-generated instances where appropriate</td>
+<td>Reference only — do not edit; for custom boards, use the FSP Stack
+Configurator instead</td>
+</tr>
+<tr>
+<td><code>Preset Config</code></td>
+<td><code>src/rs_i2c_if/config/rs_i2c_if_cfg_data_fpb_ra2e3.c/.h</code></td>
+<td>Pre-built HAL instance definitions for FPB-RA2E3; aliased to
+FSP-generated instances where appropriate</td>
+<td>Reference only — do not edit; for custom boards, use the FSP Stack
+Configurator instead</td>
+</tr>
+<tr>
+<td><code>Reference App</code></td>
+<td><code>src/demo/demo_entry.c</code></td>
+<td>Full demonstration; CLI input/output</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Note: The CLI code for printing and receiving user input via the
+serial terminal is entirely reference application code and is not part
+of the core module. When adapting this reference code, CLI input
+handling stays in your application layer.</p>
+<h2 id="8-reference-application">8. Reference Application</h2>
+<p>These files demonstrate the module but are not intended for direct
+reuse. They contain board-specific and demo-specific scaffolding. Use
+them as a starting point and replace what you don’t need.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Adaptation Guidance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.c/.h</code></td>
+<td>sensor-specific control functions; replace or heavily adapt</td>
+</tr>
+<tr>
+<td><code>src/demo/demo_entry.c</code></td>
+<td>Starting point for your CLI commands and ISR callback; replace or
+heavily adapt</td>
+</tr>
+<tr>
+<td><code>src/i2c_thread_entry.c/; hal_entry.c</code></td>
+<td>FSP application entry point</td>
+</tr>
+</tbody>
+</table>
+<h3 id="81-fsp-generated-files--do-not-edit-manually">8.1. FSP-Generated
+Files — Do Not Edit Manually</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ra/</code></td>
+<td>FSP-generated drivers, middleware, CMSIS, and board support;
+regenerate using the FSP tooling when configuration.xml changes.</td>
+</tr>
+<tr>
+<td><code>ra_gen/</code></td>
+<td>Auto-generated by the FSP Stack Configurator; overwritten when
+regenerated.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-adopting-a-newer-release">8.2. Adopting a Newer Release</h3>
+<p>This module is delivered as reference source code. Once you
+incorporate and modify it, you are responsible for maintaining your
+modified copy and merging future upstream changes.</p>
+<p><strong>What typically changes between releases:</strong> - Core
+source files (<code>src/rs_i2c_if/rs_i2c_if.c</code>,
+<code>src/rs_i2c_if/rs_i2c_if_ra.c</code>,
+<code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.c</code>), may receive bug
+fixes, new features, or FSP version compatibility updates. - Public
+headers (<code>src/rs_i2c_if/rs_i2c_if.h</code>,
+<code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.h</code>) may add new public
+functions or extend existing structures. Additions are generally
+backward-compatible; removals or signature changes are not. -
+<code>src/rs_i2c_if/rs_i2c_if.h</code> constants may gain new
+<code>#ifndef</code>-guarded defaults. Your existing overrides continue
+to take precedence without modification. - Preset config files may be
+updated for new FSP releases or corrected for hardware errata.</p>
+<p><strong>Recommended merge process:</strong></p>
+<ol type="1">
+<li>Diff the updated core files against your local copies.</li>
+<li>Apply upstream changes selectively, preserving any
+application-specific modifications.</li>
+<li>Review the updated <code>src/rs_i2c_if/rs_i2c_if.h</code>,
+<code>src/rs_i2c_if/sensor_ctrl/sensor_ctrl.h</code> for interface
+changes; update call sites in your application accordingly.</li>
+<li>Rebuild and retest on target hardware.</li>
+</ol>
+<p><strong>Note:</strong> Releases do not need to track every minor FSP
+release automatically. Confirm the supported FSP version in the release
+notes before upgrading. If the FSP version changes between your baseline
+and the update, rerun the FSP Stack Configurator to regenerate
+<code>ra_gen</code> content for the new FSP version.</p>
+<h2 id="9-configuration-assumptions-for-the-reference-board">9.
+Configuration Assumptions for the Reference Board</h2>
+<p>The reference implementation targets the <strong>FPB-RA6E2</strong>,
+<strong>FPB-RA4E2</strong> and <strong>FPB-RA2E3</strong> with the
+following board-specific assumptions. These are reference assumptions
+for the demo hardware, not requirements for your application.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Reference Assumption</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCU</td>
+<td>RA6E2 (Cortex-M33, 64-pin LQFN, R7FA6E2BB3CFM), RA4E2 (Cortex-M33,
+64-pin LQFP, R7FA4E2B93CFM), RA2E3 (Cortex-M23, 48-pin, LFQFP,
+R7FA2E3073CFL)</td>
+<td>Primary development targets</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>1 channel</td>
+<td>Control the motion sensor</td>
+</tr>
+<tr>
+<td>IRQ</td>
+<td>1 channel</td>
+<td>Motion sensor trigger interrupt</td>
+</tr>
+<tr>
+<td>UART channel</td>
+<td>FPB-RA6E2/FPBRA4E2: SCI0; FPB-RA2E3: SCI9; (USB-Serial VCOM bridge
+via J-Link)</td>
+<td>Schematic page 7; FPB-RA6E2/FPB-RA4E2: P410(RX)/P411(TX); FPB-RA2E3:
+P110(RX)/P109(TX);</td>
+</tr>
+<tr>
+<td>UART baud rate</td>
+<td>115200 baud, async, 8N1</td>
+<td>VCOM USB-Serial bridge default</td>
+</tr>
+</tbody>
+</table>
+<h3 id="required-non-default-fsp-settings">Required Non-Default FSP
+Settings</h3>
+<p>The following FSP Stack Configurator settings must be configured
+correctly for the module to operate. These are values that differ from
+FSP defaults and must be set in <code>configuration.xml</code> when not
+using the preset configuration. | Driver | Property | Required Value |
+Reason | |—|—|—|—| | <code>r_iic_b_master/I2C</code> | Channel| 0 |
+Select I2C channel| | <code>r_iic_b_master/I2C</code> | Rate | Fast-mode
+Plus/Fast-mode | Required for I2C mode setup| |
+<code>r_iic_b_master/I2C</code> | Slave Address | 0x68 | Required for
+I2c address setup| | <code>r_icu/IRQ</code> | Channel| 0;7 | Select IRQ
+channel| | <code>r_icu/IRQ</code> | Trigger| Rising | Required for
+trigger polarity| | <code>r_icu/IRQ</code> | Callback |
+external_irq_callback | Required for IRQ callback function setup| |
+<code>r_sci_uart</code> | Name | g_uart_jlob_vcom | Module name ; must
+not be changed | | <code>r_sci_uart</code> | Channel | 0;9 | Select UART
+channel, channel 0/9 connected to J-Link Virtual COM port on the
+reference board| | <code>r_sci_uart</code> | Callback |
+uart_jlob_vcom_callback | Module-owned callback; must not be changed | |
+<code>r_sci_uart</code> | Operating mode | Asynchronous | Required for
+non-blocking UART write | | <code>r_sci_uart</code> | Baud rate | 115200
+| Set baud rate |</p>
+<h2 id="10-public-functions--where-to-start">10. Public Functions —
+Where to Start</h2>
+<p>All public functions use the naming pattern
+<code>rs_i2c_if_OperationName()</code> — a lowercase
+<code>rs_i2c_if_</code> prefix followed by an UpperCamelCase operation
+name.</p>
+<p>All functions return <code>fsp_err_t</code> and take a pointer to the
+control block as their first argument.</p>
+<p>Build-time configuration macros and enumeration values use the
+all-uppercase <code>RS_I2C_IF_</code> form.</p>
+<h3 id="101-single-entry-function">10.1. Single Entry Function</h3>
+<h3 id="overview-1">Overview</h3>
+<p>The <code>rs_i2c_if_SensorDataRead()</code> provides an
+interrupt-driven method for acquiring data from a sensor instance. It
+manages one-time initialization of the I2C communication path,
+<code>sensor-specific driver</code>, external IRQ, sensor data-ready
+interrupt, and measurement operation, then waits for each data-ready
+event before reading and converting the sensor sample.</p>
+<p>The function supports both <strong>FreeRTOS</strong> and
+<strong>bare-metal</strong> operation. Under FreeRTOS, a binary
+semaphore is used to synchronize the data-ready interrupt with the
+calling task. In a bare-metal build, the function waits on an interrupt
+flag with a millisecond timeout.</p>
+<h3 id="function-prototype">Function Prototype</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_SensorDataRead<span class="op">(</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_sensor_read_context_t <span class="op">*</span> <span class="dt">const</span>  p_context<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="dt">const</span> <span class="op">*</span> <span class="dt">const</span>                       p_sensor_instance<span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="dt">const</span> <span class="op">*</span> <span class="dt">const</span>                       p_interrupt_cfg<span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    external_irq_instance_t <span class="dt">const</span> <span class="op">*</span> <span class="dt">const</span>    p_irq<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="op">*</span> <span class="dt">const</span>                             p_sensor_data<span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span>                                 timeout_ms<span class="op">);</span>    </span></code></pre></div>
+<h3 id="parameters">Parameters</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Direction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_context</code></td>
+<td>In/Out</td>
+<td>Persistent read context used to retain initialization state and
+interrupt synchronization information across calls</td>
+</tr>
+<tr>
+<td><code>p_instance</code></td>
+<td>In</td>
+<td>Sensor instance containing the sensor control block, configuration,
+and functions table</td>
+</tr>
+<tr>
+<td><code>interrupt_cfg</code></td>
+<td>In</td>
+<td>Sensor interrupt configuration. The function enables bit 0 of
+<code>int_config</code> locally for the required data-ready
+interrupt</td>
+</tr>
+<tr>
+<td><code>p_irq</code></td>
+<td>In</td>
+<td>External IRQ instance associated with the sensor data-ready
+signal</td>
+</tr>
+<tr>
+<td><code>p_accel_data</code></td>
+<td>Out</td>
+<td>Destination structure that receives the converted sensor data</td>
+</tr>
+<tr>
+<td><code>timeout_ms</code></td>
+<td>In</td>
+<td>Maximum time, in milliseconds, to wait for a sensor data-ready
+interrupt</td>
+</tr>
+</tbody>
+</table>
+<h3 id="functional-behavior">Functional Behavior</h3>
+<h4 id="first-call">First Call</h4>
+<p>When <code>p_context-&gt;initialized</code> is <code>false</code>,
+the function performs the initialization sequence required for
+interrupt-driven acquisition:</p>
+<ol type="1">
+<li>Validates the sensor instance, IRQ instance, communication
+configuration, and required API function pointers.</li>
+<li>Associates the persistent context with the sensor control block,
+sensor configuration, and IRQ instance.</li>
+<li>Creates the static FreeRTOS binary semaphore when
+<code>BSP_CFG_RTOS == 2</code>; otherwise, initializes the bare-metal
+interrupt flag.</li>
+<li>Opens the lower-level I2C driver. <code>FSP_ERR_ALREADY_OPEN</code>
+is accepted because the I2C bus may already be shared and
+initialized.</li>
+<li>Opens the sensor driver and external IRQ instance.</li>
+<li>Registers <code>rs_i2c_if_SensorExternalIrqCallback()</code> with
+the persistent context as the callback context.</li>
+<li>Enables the required sensor data-ready interrupt bit in the local
+interrupt configuration.</li>
+<li>Clears any stale data-ready event before starting measurement.</li>
+<li>Starts sensor measurement and enables the external IRQ.</li>
+<li>Marks the context as initialized for subsequent reads.</li>
+</ol>
+<p>If initialization fails after resources have been opened, the
+function uses the module cleanup path before returning the originating
+error.</p>
+<h4 id="subsequent-calls">Subsequent Calls</h4>
+<p>After initialization, the function reuses the existing sensor and IRQ
+state instead of reopening the drivers. It verifies that the same
+context is still associated with the original sensor control block,
+sensor configuration, and IRQ instance. Reusing the context with
+different objects returns <code>FSP_ERR_INVALID_ARGUMENT</code>.</p>
+<h4 id="waiting-for-data-ready">Waiting for Data Ready</h4>
+<p>The waiting mechanism depends on the build configuration:</p>
+<ul>
+<li><strong>FreeRTOS:</strong> waits on <code>irq_semaphore</code> using
+the requested <code>timeout_ms</code> converted to RTOS ticks.</li>
+<li><strong>Bare metal:</strong> polls <code>irq_flag</code> at 1 ms
+intervals until the interrupt occurs or <code>timeout_ms</code>
+expires.</li>
+</ul>
+<p>A wait that exceeds the specified timeout returns
+<code>FSP_ERR_TIMEOUT</code>.</p>
+<h4 id="reading-and-converting-data">Reading and Converting Data</h4>
+<p>After receiving the data-ready event, the function:</p>
+<ol type="1">
+<li>Calls the sensor read function to obtain the sensor data.</li>
+<li>Converts and stores the sensor data.</li>
+</ol>
+<p>Errors from either sensor operation are returned directly to the
+caller.</p>
+<h3 id="return-values">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>Accelerometer data was read and converted successfully</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td>A required pointer, nested configuration object, or required API
+function pointer is <code>NULL</code></td>
+</tr>
+<tr>
+<td><code>FSP_ERR_INVALID_ARGUMENT</code></td>
+<td>An initialized context was supplied with a different sensor or IRQ
+configuration</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_OUT_OF_MEMORY</code></td>
+<td>The FreeRTOS data-ready semaphore could not be created</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_NOT_OPEN</code></td>
+<td>The expected FreeRTOS data-ready semaphore is unavailable</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_TIMEOUT</code></td>
+<td>No data-ready interrupt was received before the specified
+timeout</td>
+</tr>
+<tr>
+<td>Other <code>fsp_err_t</code> values</td>
+<td>Errors returned by the lower-level I2C driver, sensor driver,
+external IRQ, data read, or data conversion functions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usage-considerations">Usage Considerations</h3>
+<ul>
+<li>The object referenced by <code>p_context</code> is persistent state
+and must remain valid across calls.</li>
+<li>Once initialized, a context must not be reused with a different
+sensor control block, sensor configuration, or IRQ instance.</li>
+<li>The sensor instance is treated as the source of the sensor control
+block, configuration, and API table.</li>
+<li>The lower-level I2C bus may be shared. Therefore,
+<code>FSP_ERR_ALREADY_OPEN</code> from its <code>open()</code> API is
+treated as an acceptable initialization result.</li>
+<li>The function is blocking while waiting for data-ready. The maximum
+blocking period is controlled by <code>timeout_ms</code>.</li>
+<li>The external IRQ is enabled only after the sensor configuration and
+measurement startup sequence has completed.</li>
+</ul>
+<h3 id="typical-usage">Typical Usage</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t err<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sensor_data_t sensor_data <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> rs_i2c_if_SensorDataRead <span class="op">(&amp;</span>g_sensor_sram<span class="op">.</span>sensor_context<span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                <span class="op">&amp;</span>g_sensor_sram<span class="op">.</span>sensor_instance<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                <span class="op">&amp;</span>g_sensor_interrupt_cfg<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                <span class="op">&amp;</span>g_sensor_sram<span class="op">.</span>irq_instance<span class="op">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                                <span class="op">&amp;</span>g_sensor_sram<span class="op">.</span>sensor_data<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                                 SENSOR_READ_TIMEOUT_MS<span class="op">);</span>                               </span></code></pre></div>
+<h3 id="102-public-function-summary">10.2. Public Function Summary</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rs_i2c_if_ctrl_Read</code></td>
+<td>Reads one or more bytes from the configured I2C device.</td>
+</tr>
+<tr>
+<td><code>rs_i2c_if_ctrl_Write</code></td>
+<td>Writes one or more bytes to the configured I2C device.</td>
+</tr>
+<tr>
+<td><code>rs_i2c_if_ctrl_WriteRead</code></td>
+<td>Performs a combined write followed by a read operation.</td>
+</tr>
+<tr>
+<td><code>rs_i2c_if_ctrl_Open</code></td>
+<td>Validates the configuration, initializes the instance and RTOS
+resources when applicable, and verifies the lower-level bus.</td>
+</tr>
+<tr>
+<td><code>rs_i2c_if_ctrl_Close</code></td>
+<td>Closes the instance, releases its shared-bus selection, and clears
+runtime state.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-preconditions">Common Preconditions</h3>
+<ul>
+<li><code>p_api_ctrl</code> must point to a valid
+<code>rs_i2c_if_instance_ctrl_t</code> control block.</li>
+<li><code>rs_i2c_if_ctrl_Open()</code> must complete successfully before
+calling <code>Read</code>, <code>Write</code>, <code>WriteRead</code>,
+or <code>Close</code>.</li>
+<li>Transfer buffers must remain valid for the duration of the blocking
+transaction.</li>
+<li>A transfer size of zero is rejected with
+<code>FSP_ERR_INVALID_SIZE</code>.</li>
+</ul>
+<h3 id="error-propagation">Error Propagation</h3>
+<p>In addition to the explicitly documented validation errors, the
+transaction functions return the status produced by
+<code>rs_i2c_if_bus_read()</code>, <code>rs_i2c_if_bus_write()</code>,
+or <code>rs_i2c_if_bus_write_read()</code>.
+<code>rs_i2c_if_ctrl_Open()</code> also propagates failures from
+RTOS-object initialization and lower-level bus-status checking.</p>
+<h3 id="103-rs_i2c_if_ctrl_read">10.3.
+<code>rs_i2c_if_ctrl_Read</code></h3>
+<p><strong>Implements:</strong> <code>rs_i2c_if_api_t::read</code></p>
+<p>Reads the requested number of bytes from the configured I2C device
+into the caller-provided destination buffer.</p>
+<h3 id="prototype">Prototype</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_ctrl_Read<span class="op">(</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_ctrl_t <span class="op">*</span> <span class="dt">const</span> p_api_ctrl<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="op">*</span> <span class="dt">const</span>           p_dest<span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> <span class="dt">const</span>            bytes<span class="op">);</span></span></code></pre></div>
+<h3 id="parameters-1">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_api_ctrl</code></td>
+<td>Pointer to the <code>rs_i2c_if</code> control block.</td>
+</tr>
+<tr>
+<td><code>p_dest</code></td>
+<td>Destination buffer that receives the data.</td>
+</tr>
+<tr>
+<td><code>bytes</code></td>
+<td>Number of bytes to read. Must be greater than zero.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation">Operation</h3>
+<ol type="1">
+<li>Validates the control pointer, destination pointer, and transfer
+size.</li>
+<li>Casts the public control pointer to
+<code>rs_i2c_if_instance_ctrl_t</code>.</li>
+<li>Verifies that the instance open marker equals
+<code>RS_I2C_IF_OPEN</code>.</li>
+<li>Calls <code>rs_i2c_if_bus_read()</code> and returns its status.</li>
+</ol>
+<h3 id="return-values-1">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>The read completed successfully.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td><code>p_api_ctrl</code> or <code>p_dest</code> is
+<code>NULL</code>.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_INVALID_SIZE</code></td>
+<td><code>bytes</code> is zero.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_NOT_OPEN</code></td>
+<td>The module is not open.</td>
+</tr>
+<tr>
+<td>Other <code>fsp_err_t</code></td>
+<td>An error returned by the lower-level bus-read helper.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="104-rs_i2c_if_ctrl_write">10.4.
+<code>rs_i2c_if_ctrl_Write</code></h3>
+<p><strong>Implements:</strong> <code>rs_i2c_if_api_t::write</code></p>
+<p>Writes the requested number of bytes from the caller-provided source
+buffer to the configured I2C device.</p>
+<h3 id="prototype-1">Prototype</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_ctrl_Write<span class="op">(</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_ctrl_t <span class="op">*</span> <span class="dt">const</span> p_api_ctrl<span class="op">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="op">*</span> <span class="dt">const</span>           p_src<span class="op">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> <span class="dt">const</span>            bytes<span class="op">);</span></span></code></pre></div>
+<h3 id="parameters-2">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_api_ctrl</code></td>
+<td>Pointer to the <code>rs_i2c_if</code> control block.</td>
+</tr>
+<tr>
+<td><code>p_src</code></td>
+<td>Source buffer containing the bytes to transmit.</td>
+</tr>
+<tr>
+<td><code>bytes</code></td>
+<td>Number of bytes to write. Must be greater than zero.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation-1">Operation</h3>
+<ol type="1">
+<li>Validates the control pointer, source pointer, and transfer
+size.</li>
+<li>Casts the public control pointer to
+<code>rs_i2c_if_instance_ctrl_t</code>.</li>
+<li>Verifies that the module is open.</li>
+<li>Calls <code>rs_i2c_if_bus_write()</code> and returns its
+status.</li>
+</ol>
+<h3 id="return-values-2">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>The write completed successfully.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td><code>p_api_ctrl</code> or <code>p_src</code> is
+<code>NULL</code>.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_INVALID_SIZE</code></td>
+<td><code>bytes</code> is zero.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_NOT_OPEN</code></td>
+<td>The module is not open.</td>
+</tr>
+<tr>
+<td>Other <code>fsp_err_t</code></td>
+<td>An error returned by the lower-level bus-write helper.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="105-rs_i2c_if_ctrl_writeread">10.5.
+<code>rs_i2c_if_ctrl_WriteRead</code></h3>
+<p><strong>Implements:</strong>
+<code>rs_i2c_if_api_t::writeRead</code></p>
+<p>Performs a combined I2C transaction that writes a command or register
+address and then reads response data.</p>
+<h3 id="prototype-2">Prototype</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_ctrl_WriteRead<span class="op">(</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_ctrl_t <span class="op">*</span> <span class="dt">const</span>            p_api_ctrl<span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_write_read_params_t <span class="dt">const</span> write_read_params<span class="op">);</span></span></code></pre></div>
+<h3 id="parameters-3">Parameters</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_api_ctrl</code></td>
+<td>Pointer to the <code>rs_i2c_if</code> control block.</td>
+</tr>
+<tr>
+<td><code>write_read_params.p_src</code></td>
+<td>Source buffer for the write phase.</td>
+</tr>
+<tr>
+<td><code>write_read_params.src_bytes</code></td>
+<td>Number of bytes in the write phase. Must be greater than zero.</td>
+</tr>
+<tr>
+<td><code>write_read_params.p_dest</code></td>
+<td>Destination buffer for the read phase.</td>
+</tr>
+<tr>
+<td><code>write_read_params.dest_bytes</code></td>
+<td>Number of bytes in the read phase. Must be greater than zero.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation-2">Operation</h3>
+<ol type="1">
+<li>Validates the control pointer, both transfer buffers, and both
+transfer sizes.</li>
+<li>Casts the public control pointer to
+<code>rs_i2c_if_instance_ctrl_t</code>.</li>
+<li>Verifies that the module is open.</li>
+<li>Passes the parameter structure to
+<code>rs_i2c_if_bus_write_read()</code>.</li>
+<li>Returns the lower-level helper status without translation.</li>
+</ol>
+<h3 id="return-values-3">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>The combined transaction completed successfully.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td><code>p_api_ctrl</code>, <code>p_src</code>, or <code>p_dest</code>
+is <code>NULL</code>.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_INVALID_SIZE</code></td>
+<td><code>src_bytes</code> or <code>dest_bytes</code> is zero.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_NOT_OPEN</code></td>
+<td>The module is not open.</td>
+</tr>
+<tr>
+<td>Other <code>fsp_err_t</code></td>
+<td>An error returned by the lower-level write-read helper.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="106-rs_i2c_if_ctrl_open">10.6.
+<code>rs_i2c_if_ctrl_Open</code></h3>
+<p><strong>Implements:</strong> <code>rs_i2c_if_api_t::open</code></p>
+<p>Opens and configures an <code>rs_i2c_if</code> instance, associates
+it with the shared I2C bus, initializes optional RTOS resources, and
+verifies that the lower-level driver is available.</p>
+<h3 id="prototype-3">Prototype</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_ctrl_Open<span class="op">(</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_ctrl_t <span class="op">*</span> <span class="dt">const</span>      p_api_ctrl<span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_cfg_t <span class="dt">const</span> <span class="op">*</span> <span class="dt">const</span> p_cfg<span class="op">);</span></span></code></pre></div>
+<h3 id="parameters-4">Parameters</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_api_ctrl</code></td>
+<td>Pointer to the instance control block to initialize.</td>
+</tr>
+<tr>
+<td><code>p_cfg</code></td>
+<td>Pointer to the immutable instance configuration.
+<code>p_extend</code> and <code>p_lower_level_cfg</code> must be
+valid.</td>
+</tr>
+<tr>
+<td><code>p_cfg-&gt;p_extend</code></td>
+<td>Points to <code>rs_i2c_if_bus_extended_cfg_t</code>, which contains
+the shared-bus configuration.</td>
+</tr>
+<tr>
+<td><code>p_cfg-&gt;p_lower_level_cfg</code></td>
+<td>Points to the lower-level I2C driver configuration.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation-3">Operation</h3>
+<ol type="1">
+<li>Validates <code>p_api_ctrl</code>, <code>p_cfg</code>,
+<code>p_cfg-&gt;p_extend</code>, and
+<code>p_cfg-&gt;p_lower_level_cfg</code>.</li>
+<li>Casts <code>p_api_ctrl</code> to
+<code>rs_i2c_if_instance_ctrl_t</code>.</li>
+<li>Casts <code>p_cfg-&gt;p_extend</code> to
+<code>rs_i2c_if_bus_extended_cfg_t</code>.</li>
+<li>Rejects an instance whose <code>open</code> marker already equals
+<code>RS_I2C_IF_OPEN</code>.</li>
+<li>Validates <code>p_bus-&gt;p_driver_instance</code>.</li>
+<li>For RTOS builds, verifies that the blocking semaphore and recursive
+mutex are either both configured or both absent.</li>
+<li>Initializes the control block with the configuration, bus,
+lower-level configuration, callback, and context.</li>
+<li>Resets the transfer-data fields and SMBus operation flag.</li>
+<li>When <code>BSP_CFG_RTOS == 2</code>, calls
+<code>rs_i2c_if_bus_os_init()</code>.</li>
+<li>Calls <code>rs_i2c_if_bus_status_check()</code> to verify the
+lower-level bus.</li>
+<li>Clears <code>p_bus-&gt;p_current_ctrl</code> if it already points to
+this control block, forcing address and callback configuration on the
+first transfer.</li>
+<li>Sets <code>p_ctrl-&gt;open</code> to
+<code>RS_I2C_IF_OPEN</code>.</li>
+</ol>
+<h3 id="rtos-synchronization-validation">RTOS Synchronization
+Validation</h3>
+<p>For an RTOS build, the following configurations are accepted:</p>
+<ul>
+<li>Both <code>p_blocking_semaphore</code> and
+<code>p_bus_recursive_mutex</code> are <code>NULL</code>.</li>
+<li>Both <code>p_blocking_semaphore</code> and
+<code>p_bus_recursive_mutex</code> are non-<code>NULL</code>.</li>
+</ul>
+<p>A configuration with only one synchronization object is rejected with
+<code>FSP_ERR_ASSERTION</code>.</p>
+<h3 id="failure-cleanup">Failure Cleanup</h3>
+<p>If RTOS-object initialization or bus-status checking fails, the
+function clears these control-block members before returning the
+error:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_cfg             <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_bus             <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_lower_level_cfg <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_callback        <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_context         <span class="op">=</span> NULL<span class="op">;</span></span></code></pre></div>
+<h3 id="return-values-4">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>The module was configured and opened successfully.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td>A required pointer is <code>NULL</code>, the driver instance is
+missing, or the RTOS synchronization-object combination is invalid.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ALREADY_OPEN</code></td>
+<td>The control block is already open.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_COMMS_BUS_NOT_OPEN</code></td>
+<td>The lower-level I2C driver is not open, when reported by the
+bus-status check.</td>
+</tr>
+<tr>
+<td>Other <code>fsp_err_t</code></td>
+<td>An error returned by RTOS-object initialization or bus-status
+checking.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="implementation-notes">Implementation Notes</h3>
+<ul>
+<li>The open marker is written only after OS initialization and
+lower-level bus validation succeed.</li>
+<li>The failure path clears the initialized control-block
+references.</li>
+<li><h2 id="if-rs_i2c_if_bus_os_init-creates-synchronization-objects-and-a-later-bus-status-check-fails-their-ownership-and-cleanup-behavior-should-be-explicitly-defined-the-corresponding-cleanup-routine-should-be-called-if-the-objects-are-owned-by-this-instance">If
+<code>rs_i2c_if_bus_os_init()</code> creates synchronization objects and
+a later bus-status check fails, their ownership and cleanup behavior
+should be explicitly defined. The corresponding cleanup routine should
+be called if the objects are owned by this instance.</h2>
+<h3 id="107-rs_i2c_if_ctrl_close">10.7.
+<code>rs_i2c_if_ctrl_Close</code></h3></li>
+</ul>
+<p><strong>Implements:</strong> <code>rs_i2c_if_api_t::close</code></p>
+<p>Closes an <code>rs_i2c_if</code> instance, removes its shared-bus
+selection when applicable, and clears its runtime control state.</p>
+<h3 id="prototype-4">Prototype</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fsp_err_t rs_i2c_if_ctrl_Close<span class="op">(</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    rs_i2c_if_ctrl_t <span class="op">*</span> <span class="dt">const</span> p_api_ctrl<span class="op">);</span></span></code></pre></div>
+<h3 id="parameters-5">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>p_api_ctrl</code></td>
+<td>Pointer to the open <code>rs_i2c_if</code> control block.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation-4">Operation</h3>
+<ol type="1">
+<li>Validates <code>p_api_ctrl</code>.</li>
+<li>Casts the public control pointer to
+<code>rs_i2c_if_instance_ctrl_t</code>.</li>
+<li>Verifies that the instance is open.</li>
+<li>Verifies that the stored shared-bus pointer is valid.</li>
+<li>Clears <code>p_current_ctrl</code> only if the closing instance
+currently owns the shared-bus selection.</li>
+<li>Clears the open marker, configuration pointers, callback, context,
+transfer state, and SMBus state.</li>
+<li>Returns <code>FSP_SUCCESS</code>.</li>
+</ol>
+<h3 id="cleared-runtime-state">Cleared Runtime State</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>open                <span class="op">=</span> <span class="dv">0</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_cfg               <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_bus               <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_lower_level_cfg   <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_callback          <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_context           <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>p_transfer_data     <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>transfer_data_bytes <span class="op">=</span> <span class="dv">0</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>p_ctrl<span class="op">-&gt;</span>smbus_operation     <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span></code></pre></div>
+<h3 id="return-values-5">Return Values</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Return value</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FSP_SUCCESS</code></td>
+<td>The instance was closed and its control state was cleared.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_ASSERTION</code></td>
+<td><code>p_api_ctrl</code> is <code>NULL</code> or the stored bus
+pointer is <code>NULL</code>.</td>
+</tr>
+<tr>
+<td><code>FSP_ERR_NOT_OPEN</code></td>
+<td>The module is not open.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="implementation-notes-1">Implementation Notes</h3>
+<ul>
+<li>The function does not close the shared lower-level I2C driver. This
+supports a bus shared by multiple logical device instances.</li>
+<li>If <code>Open</code> dynamically creates RTOS synchronization
+objects, <code>Close</code> should call the corresponding
+deinitialization routine unless those objects are bus-owned and
+intentionally persistent.</li>
+</ul>
+<h2 id="11-running-the-project-and-expected-output">11. Running the
+Project and Expected Output</h2>
+<p>This demonstration reads motion-sensor data and displays it on a UART
+terminal.</p>
+<h3 id="111-hardware-connections">11.1. Hardware Connections</h3>
+<ul>
+<li>Connect J8 on FPB-RA6E2/FPB-RA4E2 board or CN6 on FPB-RA2E3 to the
+PC for power, debugging, and J-Link virtual COM port.</li>
+<li>Connect a serial terminal to the J-Link virtual COM port with
+<strong>115200 baud, 8N1</strong>.</li>
+</ul>
+<p><strong>FPB-RA6E2/FPB-RA4E2 - QCIOT-ICM42671POCZ:</strong></p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 23%" />
+<col style="width: 36%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Signal          </th>
+<th>FPB-RA6E2/FPB-RA4E2 Arduino Uno Pin#</th>
+<th>QCIOT-ICM42671POCZ J1/J2 Pin#</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">VCC             </td>
+<td>#J2-Pin 4       </td>
+<td>#6                         </td>
+<td>           </td>
+</tr>
+<tr>
+<td style="text-align: left;">GND             </td>
+<td>#J2-Pin 7       </td>
+<td>#5                         </td>
+<td>           </td>
+</tr>
+<tr>
+<td style="text-align: left;">IRQ</td>
+<td>#J5-Pin 3</td>
+<td>#1</td>
+<td>P105 (IRQ0)</td>
+</tr>
+<tr>
+<td style="text-align: left;">I2C-SCL         </td>
+<td>#J1-Pin 10       </td>
+<td>#3                         </td>
+<td>P100 (SCL)</td>
+</tr>
+<tr>
+<td style="text-align: left;">I2C-SDA         </td>
+<td>#J1-Pin 9       </td>
+<td>#4                         </td>
+<td>P101 (SDA)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Use one interrupt input (P105) since the
+module hardware design used only INT1 of the ICM42670 which is connected
+to QCIOT-ICM42671POCZ J2’s IRQ pin (#pin 1).</p>
+<p><strong>FPB-RA2E3 - QCIOT-ICM42671POCZ:</strong></p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 23%" />
+<col style="width: 36%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Signal          </th>
+<th>FPB-RA2E3 PMOD2 Pin#</th>
+<th>QCIOT-ICM42671POCZ J1/J2 Pin#</th>
+<th>Note   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">VCC             </td>
+<td>#6       </td>
+<td>#6                         </td>
+<td>           </td>
+</tr>
+<tr>
+<td style="text-align: left;">GND             </td>
+<td>#5       </td>
+<td>#5                         </td>
+<td>           </td>
+</tr>
+<tr>
+<td style="text-align: left;">IRQ</td>
+<td>#1</td>
+<td>#1</td>
+<td>P408 (IRQ7)</td>
+</tr>
+<tr>
+<td style="text-align: left;">I2C-SCL         </td>
+<td>#3       </td>
+<td>#3                         </td>
+<td>P400 (SCL)</td>
+</tr>
+<tr>
+<td style="text-align: left;">I2C-SDA         </td>
+<td>#4       </td>
+<td>#4                         </td>
+<td>P401 (SDA)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Solder E26, E28, E46, and E47 to connect the
+MCU UART interface to the J-Link Virtual COM Port.</p>
+<h3 id="112-importing-and-building-demonstration-project">11.2.
+Importing and Building Demonstration Project</h3>
+<p>For detailed instructions on importing, configuring, building, and
+running the demonstration project in Visual Studio Code, refer to the
+Renesas RA VS Code Documentation at the following link:</p>
+<p><a href="https://tool-support.renesas.com/e2studio/vscode/docs/creating-and-building-project.html#using-renesas-ra">creating-and-building-project.html#using-renesas-ra</a></p>
+<h3 id="113-example-terminal-output">11.3. Example Terminal Output</h3>
+<p>The following data show example terminal output from the
+demonstration projects.</p>
+<pre><code>*****************************************************
+   RS I2C IF - Motion Sensor Demo
+   Module Version 1.0.0
+*****************************************************
+Accel [X=-0.536, Y=0.291, Z=10.197] m/s^2
+Accel [X=-0.544, Y=0.285, Z=10.210] m/s^2
+Accel [X=-0.522, Y=0.266, Z=10.212] m/s^2
+Accel [X=-0.541, Y=0.285, Z=10.203] m/s^2
+Accel [X=-0.559, Y=0.285, Z=10.216] m/s^2
+Accel [X=-0.528, Y=0.272, Z=10.189] m/s^2
+Accel [X=-0.526, Y=0.249, Z=10.179] m/s^2
+Accel [X=-0.535, Y=0.258, Z=10.189] m/s^2
+Accel [X=-0.522, Y=0.272, Z=10.195] m/s^2
+Accel [X=-0.529, Y=0.280, Z=10.204] m/s^2
+Accel [X=-0.535, Y=0.266, Z=10.197] m/s^2
+Accel [X=-0.528, Y=0.261, Z=10.184] m/s^2
+Accel [X=-0.546, Y=0.278, Z=10.180] m/s^2
+Accel [X=-0.535, Y=0.285, Z=10.182] m/s^2
+Accel [X=-0.526, Y=0.276, Z=10.212] m/s^2
+Accel [X=-0.563, Y=0.305, Z=10.188] m/s^2
+Accel [X=-0.542, Y=0.257, Z=10.231] m/s^2
+Accel [X=-0.544, Y=0.281, Z=10.180] m/s^2
+Accel [X=-0.548, Y=0.281, Z=10.195] m/s^2
+</code></pre>
+</body>
+</html>
