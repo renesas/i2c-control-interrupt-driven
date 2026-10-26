@@ -27,8 +27,6 @@ static void rs_i2c_if_sensor_context_reset(rs_i2c_if_sensor_read_context_t * con
 {
     p_context->initialized = false;
     p_context->p_ctrl = NULL;
-    p_context->p_cfg  = NULL;
-    p_context->p_irq  = NULL;
 #if BSP_CFG_RTOS == 2
     if (NULL != p_context->irq_semaphore)
     {
@@ -99,7 +97,7 @@ static TickType_t rs_i2c_if_timeout_to_ticks(uint32_t timeout_ms)
 }
 
 /*******************************************************************************************************************//**
- * @brief Removes any pending tokens from an ICM42670 interrupt semaphore.
+ * @brief Removes any pending tokens from a sensor interrupt semaphore.
  *
  * The function repeatedly attempts to take @p semaphore without blocking until no semaphore token remains. This
  * clears any previously signaled interrupt event before starting a new wait operation.
@@ -287,269 +285,278 @@ fsp_err_t rs_i2c_if_SensorConfigCheck (
 }
 
 /*******************************************************************************************************************//**
- * @brief Waits for a sensor data-ready interrupt and reads converted accelerometer data.
+ * @brief Initializes the sensor interface when required, waits for data-ready,
+ *        and reads converted accelerometer data.
  *
- * This generic interface receives the sensor instance, sensor interrupt configuration, and output data buffer as
- * void pointers. The pointers are validated and converted to the sensor-specific types inside the function.
+ * On the first call, this function validates and initializes the I2C driver,
+ * sensor driver, external IRQ, synchronization object, sensor interrupt, and
+ * measurement operation. Subsequent calls reuse the initialized context and
+ * execute only the data-ready wait, raw-data read, and data conversion.
  *
- * On the first call for a read context, this function initializes the lower-level I2C driver, sensor driver,
- * external IRQ, sensor data-ready interrupt, and sensor measurement. Subsequent calls reuse the initialized state.
+ * @param[in,out] p_context          Persistent sensor-read context.
+ * @param[in]     p_sensor_instance  Pointer to the sensor instance.
+ * @param[in]     p_interrupt_cfg    Pointer to the sensor interrupt configuration.
+ * @param[in]     p_irq              External data-ready IRQ instance.
+ * @param[out]    p_sensor_data      Destination for converted sensor data.
+ * @param[in]     timeout_ms         Data-ready timeout in milliseconds.
  *
- * The function waits for the data-ready event using a FreeRTOS binary semaphore or a bare-metal interrupt flag,
- * reads the raw accelerometer sample, and converts it into engineering-unit acceleration data.
+ * @retval FSP_SUCCESS            Data was read and converted successfully.
+ * @retval FSP_ERR_ASSERTION      A required pointer or configuration is invalid.
+ * @retval FSP_ERR_OUT_OF_MEMORY  The static semaphore could not be created.
+ * @retval FSP_ERR_TIMEOUT        The data-ready event was not received in time.
+ * @return                        Error returned by an underlying driver.
  *
- * @param[in,out] p_context          Persistent initialization and interrupt-synchronization context.
- * @param[in]     p_sensor_instance  Pointer to a sensor instance.
- * @param[in]     p_interrupt_cfg    Pointer to a sensor's interrupt configuration object.
- * @param[in]     p_irq              External IRQ instance associated with the sensor data-ready signal.
- * @param[out]    p_sensor_data      Pointer to a sensor's output data object.
- * @param[in]     timeout_ms         Maximum time, in milliseconds, to wait for a data-ready interrupt.
- *
- * @retval FSP_SUCCESS              Accelerometer data was read and converted successfully.
- * @retval FSP_ERR_ASSERTION        A required pointer or nested configuration member is NULL.
- * @retval FSP_ERR_INVALID_ARGUMENT The context is associated with different sensor or IRQ objects.
- * @retval FSP_ERR_OUT_OF_MEMORY    The FreeRTOS data-ready semaphore could not be created.
- * @retval FSP_ERR_NOT_OPEN         The FreeRTOS data-ready semaphore is unavailable.
- * @retval FSP_ERR_TIMEOUT          A data-ready interrupt was not received before timeout.
- *
- * @return Any error returned by the lower-level I2C, sensor, external IRQ, raw-data read,
- *         or data-conversion API.
- *
- * @note The caller must pass objects of the documented concrete types. A void pointer removes compile-time type
- *       checking, so passing an object of the wrong type results in undefined behavior.
- * @note The interrupt configuration is copied locally because the function enables bit 0 of int_config without
- *       modifying the caller's configuration object.
- * @note The context must persist across calls and must not be shared between different sensor or IRQ instances
- *       after initialization. FSP_ERR_ALREADY_OPEN from the shared lower-level I2C driver is accepted.
+ * @note The sensor instance, interrupt configuration, and IRQ instance are used
+ *       only during the first call for a context.
+ * @note The context must be initialized to zero before its first use.
+ * @note A context must not be shared concurrently by multiple tasks.
  **********************************************************************************************************************/
-fsp_err_t rs_i2c_if_SensorDataRead(
-    rs_i2c_if_sensor_read_context_t * const  p_context,
-    void const * const                       p_sensor_instance,
-    void const * const                       p_interrupt_cfg,
-    external_irq_instance_t const * const    p_irq,
-    void * const                             p_sensor_data,
-    uint32_t                                 timeout_ms)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    rm_icm42670_raw_data_t raw_data = {0};
+ fsp_err_t rs_i2c_if_SensorDataRead(
+     rs_i2c_if_sensor_read_context_t * const p_context,
+     void const * const                       p_sensor_instance,
+     void const * const                       p_interrupt_cfg,
+     external_irq_instance_t const * const    p_irq,
+     void * const                             p_sensor_data,
+     uint32_t                                 timeout_ms)
+ {
+     fsp_err_t err;
 
-    rm_icm42670_instance_t const * p_instance = NULL;
-    rm_icm42670_device_interrupt_cfg_t interrupt_cfg = {0};
-    rm_icm42670_accel_data_t * p_accel_data = NULL;
+     /*
+      * These pointers are dereferenced on every call.
+      */
+     FSP_ERROR_RETURN(NULL != p_context,     FSP_ERR_ASSERTION);
+     FSP_ERROR_RETURN(NULL != p_sensor_data, FSP_ERR_ASSERTION);
 
-    rm_icm42670_api_t const * p_sensor_api = NULL;
-    rm_icm42670_instance_ctrl_t * p_instance_ctrl = NULL;
-    rm_icm42670_cfg_t const * p_sensor_cfg = NULL;
+     /*
+      * Perform configuration validation and hardware initialization once.
+      */
+     if (false == p_context->initialized)
+     {
+         bool sensor_opened = false;
+         bool irq_opened    = false;
 
-    rs_i2c_if_bus_extended_cfg_t const * p_extend = NULL;
-    i2c_master_instance_t const * p_driver_instance = NULL;
+         rm_icm42670_instance_t const * p_instance;
+         rm_icm42670_cfg_t const * p_sensor_cfg;
+         rm_icm42670_device_interrupt_cfg_t interrupt_cfg;
 
-    bool sensor_opened = false;
-    bool irq_opened    = false;
+         rs_i2c_if_bus_extended_cfg_t const * p_extend;
+         i2c_master_instance_t const * p_driver_instance;
 
-    /* Validate generic parameters before converting them to sensor-specific types. */
-    FSP_ERROR_RETURN(NULL != p_context,         FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_instance, FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_interrupt_cfg,   FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_irq,             FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_data,     FSP_ERR_ASSERTION);
+         /*
+          * These parameters are required only during initialization.
+          */
+         FSP_ERROR_RETURN(NULL != p_sensor_instance, FSP_ERR_ASSERTION);
+         FSP_ERROR_RETURN(NULL != p_interrupt_cfg,   FSP_ERR_ASSERTION);
+         FSP_ERROR_RETURN(NULL != p_irq,             FSP_ERR_ASSERTION);
 
-    /* Convert generic pointers to the concrete sensor-driver types. */
-    p_instance   = (rm_icm42670_instance_t const *) p_sensor_instance;
-    interrupt_cfg = *(rm_icm42670_device_interrupt_cfg_t const *) p_interrupt_cfg;
-    p_accel_data = (rm_icm42670_accel_data_t *) p_sensor_data;
+         /*
+          * Convert generic initialization objects to sensor-specific types.
+          */
+         p_instance = (rm_icm42670_instance_t const *) p_sensor_instance;
+         interrupt_cfg = *(rm_icm42670_device_interrupt_cfg_t const *) p_interrupt_cfg;
 
-    /* Validate sensor instance members. */
-    FSP_ERROR_RETURN(NULL != p_instance->p_ctrl, FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_instance->p_cfg,  FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_instance->p_api,  FSP_ERR_ASSERTION);
+         /*
+          * Cache only objects required by the repeated read path.
+          *
+          * The sensor configuration and IRQ instance are needed only during
+          * initialization, so they are not stored in the read context.
+          */
+         p_context->p_ctrl = (rm_icm42670_instance_ctrl_t *) p_instance->p_ctrl;
+         p_context->p_api  = p_instance->p_api;
+         p_sensor_cfg      = p_instance->p_cfg;
 
-    /* Validate external IRQ instance members. */
-    FSP_ERROR_RETURN(NULL != p_irq->p_api,  FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_irq->p_ctrl, FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_irq->p_cfg,  FSP_ERR_ASSERTION);
+         p_extend          = (rs_i2c_if_bus_extended_cfg_t const *) p_sensor_cfg->p_comms_instance->p_cfg->p_extend;
+         p_driver_instance = (i2c_master_instance_t const *)p_extend->p_driver_instance;
 
-    /* Use p_instance as the single source of sensor configuration. */
-    p_instance_ctrl = (rm_icm42670_instance_ctrl_t *) p_instance->p_ctrl;
-    p_sensor_cfg     = p_instance->p_cfg;
-    p_sensor_api     = p_instance->p_api;
+         /*
+          * Clear persistent runtime data before enabling any interrupts.
+          */
+         memset(&p_context->raw_data, 0, sizeof(p_context->raw_data));
 
-    /* Validate sensor API functions used by this function. */
-    FSP_ERROR_RETURN(NULL != p_sensor_api->open,                  FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_api->deviceInterruptCfgSet, FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_api->measurementStart,      FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_api->accelRead,             FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_sensor_api->accelDataCalculate,    FSP_ERR_ASSERTION);
+ #if BSP_CFG_RTOS == 2
 
-    /* Validate external IRQ API functions used by this function. */
-    FSP_ERROR_RETURN(NULL != p_irq->p_api->open,        FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_irq->p_api->callbackSet, FSP_ERR_ASSERTION);
-    FSP_ERROR_RETURN(NULL != p_irq->p_api->enable,      FSP_ERR_ASSERTION);
+         /*
+          * Create the static binary semaphore once.
+          */
+         p_context->irq_semaphore = xSemaphoreCreateBinaryStatic( &p_context->irq_semaphore_memory);
+         if (NULL == p_context->irq_semaphore)
+         {
+             rs_i2c_if_sensor_context_reset(p_context);
 
-    if (false == p_context->initialized)
-    {
-        /* Validate the communications configuration. */
-        FSP_ERROR_RETURN(NULL != p_sensor_cfg->p_comms_instance,                  FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_sensor_cfg->p_comms_instance->p_cfg,           FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_sensor_cfg->p_comms_instance->p_cfg->p_extend, FSP_ERR_ASSERTION);
+             return FSP_ERR_OUT_OF_MEMORY;
+         }
 
-        p_extend =
-            (rs_i2c_if_bus_extended_cfg_t const *) p_sensor_cfg->p_comms_instance->p_cfg->p_extend;
+ #else
 
-        p_driver_instance = (i2c_master_instance_t const *) p_extend->p_driver_instance;
+         p_context->irq_flag = false;
 
-        FSP_ERROR_RETURN(NULL != p_driver_instance,              FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_driver_instance->p_api,       FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_driver_instance->p_ctrl,      FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_driver_instance->p_cfg,       FSP_ERR_ASSERTION);
-        FSP_ERROR_RETURN(NULL != p_driver_instance->p_api->open, FSP_ERR_ASSERTION);
+ #endif
 
-        /* Bind this persistent context to one sensor control block, configuration, and IRQ instance. */
-        p_context->p_ctrl = p_instance_ctrl;
-        p_context->p_cfg  = p_sensor_cfg;
-        p_context->p_irq  = p_irq;
+         /*
+          * Open the shared lower-level I2C driver.
+          *
+          * FSP_ERR_ALREADY_OPEN is accepted because the I2C bus may be shared
+          * with another sensor instance.
+          */
+         err = p_driver_instance->p_api->open( p_driver_instance->p_ctrl, p_driver_instance->p_cfg);
 
-#if BSP_CFG_RTOS == 2
-        p_context->irq_semaphore = xSemaphoreCreateBinaryStatic(&p_context->irq_semaphore_memory);
+         if ((FSP_SUCCESS != err) && (FSP_ERR_ALREADY_OPEN != err))
+         {
+             rs_i2c_if_sensor_context_reset(p_context);
 
-        if (NULL == p_context->irq_semaphore)
-        {
-            rs_i2c_if_sensor_context_reset(p_context);
-            return FSP_ERR_OUT_OF_MEMORY;
-        }
-#else
-        p_context->irq_flag = false;
-#endif
+             return err;
+         }
 
-        /* Open the shared lower-level I2C driver. An already-open shared bus is valid. */
-        err = p_driver_instance->p_api->open(p_driver_instance->p_ctrl,
-                                             p_driver_instance->p_cfg);
+         /*
+          * Open the sensor driver.
+          */
+         err = p_context->p_api->open( p_context->p_ctrl, p_sensor_cfg);
+         if (FSP_SUCCESS != err)
+         {
+             rs_i2c_if_sensor_context_reset(p_context);
 
-        if ((FSP_SUCCESS != err) && (FSP_ERR_ALREADY_OPEN != err))
-        {
-            rs_i2c_if_sensor_context_reset(p_context);
-            return err;
-        }
+             return err;
+         }
 
-        /* Open and configure the sensor. */
-        err = p_sensor_api->open(p_instance_ctrl, p_sensor_cfg);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_context_reset(p_context);
-            return err;
-        }
+         sensor_opened = true;
 
-        sensor_opened = true;
+         /*
+          * Open the external data-ready IRQ.
+          */
+         err = p_irq->p_api->open(p_irq->p_ctrl, p_irq->p_cfg);
+         if (FSP_SUCCESS != err)
+         {
+             rs_i2c_if_sensor_init_cleanup(p_context, p_context->p_ctrl, p_irq, sensor_opened, irq_opened);
 
-        /* Open the external data-ready IRQ. */
-        err = p_irq->p_api->open(p_irq->p_ctrl, p_irq->p_cfg);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_init_cleanup(p_context, p_instance_ctrl, p_irq, sensor_opened, irq_opened);
-            return err;
-        }
+             return err;
+         }
 
-        irq_opened = true;
+         irq_opened = true;
 
-        /* Register the sensor context as the IRQ callback context. */
-        err = p_irq->p_api->callbackSet(p_irq->p_ctrl,
-                                        rs_i2c_if_SensorExternalIrqCallback,
-                                        p_context,
-                                        NULL);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_init_cleanup(p_context, p_instance_ctrl, p_irq, sensor_opened, irq_opened);
-            return err;
-        }
+         /*
+          * Register the persistent read context with the IRQ callback.
+          */
+         err = p_irq->p_api->callbackSet(p_irq->p_ctrl, rs_i2c_if_SensorExternalIrqCallback, p_context, NULL);
 
-        /* Enable the required sensor data-ready interrupt bit in the local copy. */
-        interrupt_cfg.int_config |= 0x01U;
+         if (FSP_SUCCESS != err)
+         {
+             rs_i2c_if_sensor_init_cleanup(p_context, p_context->p_ctrl, p_irq, sensor_opened, irq_opened);
 
-        err = p_sensor_api->deviceInterruptCfgSet(p_instance_ctrl, interrupt_cfg);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_init_cleanup(p_context, p_instance_ctrl, p_irq, sensor_opened, irq_opened);
-            return err;
-        }
+             return err;
+         }
 
-        /* Remove any stale data-ready event. */
-#if BSP_CFG_RTOS == 2
-        rs_i2c_if_semaphore_drain(p_context->irq_semaphore);
-#else
-        p_context->irq_flag = false;
-#endif
+         /*
+          * Enable the sensor data-ready interrupt without modifying the
+          * caller's interrupt configuration object.
+          */
+         interrupt_cfg.int_config |= 0x01U;
 
-        /* Start sensor measurement. */
-        err = p_sensor_api->measurementStart(p_instance_ctrl);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_init_cleanup(p_context, p_instance_ctrl, p_irq, sensor_opened, irq_opened);
-            return err;
-        }
+         err = p_context->p_api->deviceInterruptCfgSet(p_context->p_ctrl, interrupt_cfg);
 
-        /* Enable the external IRQ last. */
-        err = p_irq->p_api->enable(p_irq->p_ctrl);
-        if (FSP_SUCCESS != err)
-        {
-            rs_i2c_if_sensor_init_cleanup(p_context, p_instance_ctrl, p_irq, sensor_opened, irq_opened);
-            return err;
-        }
+         if (FSP_SUCCESS != err)
+         {
+             rs_i2c_if_sensor_init_cleanup(p_context, p_context->p_ctrl, p_irq, sensor_opened, irq_opened);
 
-        p_context->initialized = true;
-    }
-    else
-    {
-        /* Reject attempts to reuse the context with a different sensor or IRQ instance. */
-        if ((p_context->p_ctrl != p_instance_ctrl) ||
-            (p_context->p_cfg  != p_sensor_cfg)    ||
-            (p_context->p_irq  != p_irq))
-        {
-            return FSP_ERR_INVALID_ARGUMENT;
-        }
-    }
+             return err;
+         }
 
-    /* Wait for the data-ready interrupt. */
-#if BSP_CFG_RTOS == 2
-    if (NULL == p_context->irq_semaphore)
-    {
-        return FSP_ERR_NOT_OPEN;
-    }
+         /*
+          * Remove any stale data-ready event before measurement starts.
+          */
+ #if BSP_CFG_RTOS == 2
 
-    if (pdTRUE != xSemaphoreTake(p_context->irq_semaphore,
-                                 rs_i2c_if_timeout_to_ticks(timeout_ms)))
-    {
-        return FSP_ERR_TIMEOUT;
-    }
-#else
-    {
-        uint32_t elapsed_ms = 0U;
+         rs_i2c_if_semaphore_drain(p_context->irq_semaphore);
 
-        while (false == p_context->irq_flag)
-        {
-            if (elapsed_ms >= timeout_ms)
-            {
-                return FSP_ERR_TIMEOUT;
-            }
+ #else
 
-            R_BSP_SoftwareDelay(1U, BSP_DELAY_UNITS_MILLISECONDS);
-            elapsed_ms++;
-        }
+         p_context->irq_flag = false;
 
-        p_context->irq_flag = false;
-    }
-#endif
+ #endif
 
-    /* Read and convert the accelerometer sample. */
-    err = p_sensor_api->accelRead(p_instance_ctrl, &raw_data);
-    if (FSP_SUCCESS != err)
-    {
-        return err;
-    }
+         /*
+          * Start sensor measurement.
+          */
+         err = p_context->p_api->measurementStart(
+             p_context->p_ctrl);
 
-    return p_sensor_api->accelDataCalculate(p_instance_ctrl,
-                                            &raw_data,
-                                            p_accel_data);
-}
+         if (FSP_SUCCESS != err)
+         {
+             rs_i2c_if_sensor_init_cleanup(p_context, p_context->p_ctrl, p_irq, sensor_opened, irq_opened);
+
+             return err;
+         }
+
+         /*
+          * Mark the context initialized before enabling the external IRQ.
+          *
+          * This is required because the IRQ callback checks initialized before
+          * signaling the semaphore or bare-metal flag. If the IRQ fires
+          * immediately after enable(), the event will not be discarded.
+          */
+         p_context->initialized = true;
+
+         /*
+          * Enable the external IRQ last.
+          */
+         err = p_irq->p_api->enable(p_irq->p_ctrl);
+
+         if (FSP_SUCCESS != err)
+         {
+             p_context->initialized = false;
+
+             rs_i2c_if_sensor_init_cleanup(p_context, p_context->p_ctrl, p_irq, sensor_opened, irq_opened);
+
+             return err;
+         }
+     }
+
+     /*
+      * Fast repeated-read path.
+      */
+
+ #if BSP_CFG_RTOS == 2
+
+     if (pdTRUE != xSemaphoreTake( p_context->irq_semaphore, rs_i2c_if_timeout_to_ticks(timeout_ms)))
+     {
+         return FSP_ERR_TIMEOUT;
+     }
+
+ #else
+
+     {
+         uint32_t elapsed_ms = 0U;
+
+         while (false == p_context->irq_flag)
+         {
+             if (elapsed_ms >= timeout_ms)
+             {
+                 return FSP_ERR_TIMEOUT;
+             }
+
+             R_BSP_SoftwareDelay(1U, BSP_DELAY_UNITS_MILLISECONDS);
+
+             elapsed_ms++;
+         }
+
+         p_context->irq_flag = false;
+     }
+
+ #endif
+
+     /*
+      * Read raw sensor data into the persistent context buffer.
+      */
+     err = p_context->p_api->accelRead(p_context->p_ctrl, &p_context->raw_data);
+     if (FSP_SUCCESS != err)
+     {
+         return err;
+     }
+
+     /*
+      * Convert the raw sample directly into the caller's output object.
+      */
+     return p_context->p_api->accelDataCalculate( p_context->p_ctrl, &p_context->raw_data, (rm_icm42670_accel_data_t *) p_sensor_data);
+ }
 
 /*******************************************************************************************************************//**
  * @brief Handles the external interrupt generated by the sensor.

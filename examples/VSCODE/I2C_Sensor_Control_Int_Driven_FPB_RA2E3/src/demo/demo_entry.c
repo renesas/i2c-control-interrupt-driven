@@ -63,7 +63,7 @@ extern rs_i2c_if_instance_t const g_rs_i2c_if_device;
 extern external_irq_instance_t const g_external_irq;
 
 /* Sensor control structure */
-rs_i2c_if_sensor_ctrl_t g_sensor_sram = {0};
+static rs_i2c_if_sensor_ctrl_t g_sensor_sram = {0};
 
 /* Demonstration function */
 void i2c_sensor_control_demo(void)
@@ -81,7 +81,7 @@ void i2c_sensor_control_demo(void)
     err = rs_i2c_if_SensorConfigCheck(&g_rs_i2c_if_device, &g_icm42670_sensor0, &g_external_irq, &g_sensor_sram);
     if(err != FSP_SUCCESS)
     {
-        __BKPT(1);
+        __BKPT(0);
     }
 
 

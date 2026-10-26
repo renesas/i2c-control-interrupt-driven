@@ -110,6 +110,9 @@ typedef struct st_rs_i2c_if_instance_ctrl
     /* Specific control variable for SMBus */
     bool smbus_operation;             ///< SMBus operation on I2C bus
 
+    /* Set by the I2C callback (ISR) when the last transfer failed; cleared before each transfer. */
+    volatile bool transfer_err;
+
     /* Pointer to callback and optional working memory */
     void (* p_callback)(rs_i2c_if_callback_args_t * p_args);
 

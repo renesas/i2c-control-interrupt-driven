@@ -170,6 +170,7 @@ fsp_err_t rs_i2c_if_bus_read (rs_i2c_if_ctrl_t * const p_api_ctrl,
             p_ctrl->transfer_data_bytes = bytes;
         }
 
+        p_ctrl->transfer_err = false;   /* clear before the ISR can set it */
         err = p_driver_instance->p_api->read(p_driver_instance->p_ctrl, p_dest, bytes, false);
     }
 
@@ -178,7 +179,15 @@ fsp_err_t rs_i2c_if_bus_read (rs_i2c_if_ctrl_t * const p_api_ctrl,
     {
         err = rs_i2c_if_os_semaphore_acquire(p_ctrl->p_bus->p_blocking_semaphore,
                                               p_ctrl->p_cfg->semaphore_timeout);
-        if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
+        if (FSP_SUCCESS == err)
+        {
+            /* The callback gives the semaphore for errors too; report them. */
+            if (p_ctrl->transfer_err)
+            {
+                err = FSP_ERR_ABORTED;
+            }
+        }
+        else if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
         {
             (void) p_driver_instance->p_api->abort(p_driver_instance->p_ctrl);
         }
@@ -262,6 +271,7 @@ fsp_err_t rs_i2c_if_bus_write (rs_i2c_if_ctrl_t * const p_api_ctrl,
     {
         p_ctrl->p_transfer_data      = NULL;
         p_ctrl->transfer_data_bytes = 0U;
+        p_ctrl->transfer_err = false;   /* clear before the ISR can set it */
         err = p_driver_instance->p_api->write(p_driver_instance->p_ctrl, p_src, bytes, false);
     }
 
@@ -270,7 +280,15 @@ fsp_err_t rs_i2c_if_bus_write (rs_i2c_if_ctrl_t * const p_api_ctrl,
     {
         err = rs_i2c_if_os_semaphore_acquire(p_ctrl->p_bus->p_blocking_semaphore,
                                               p_ctrl->p_cfg->semaphore_timeout);
-        if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
+        if (FSP_SUCCESS == err)
+        {
+            /* The callback gives the semaphore for errors too; report them. */
+            if (p_ctrl->transfer_err)
+            {
+                err = FSP_ERR_ABORTED;
+            }
+        }
+        else if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
         {
             (void) p_driver_instance->p_api->abort(p_driver_instance->p_ctrl);
         }
@@ -353,6 +371,7 @@ fsp_err_t rs_i2c_if_bus_write_read (rs_i2c_if_ctrl_t * const                  p_
 
     if (FSP_SUCCESS == err)
     {
+        p_ctrl->transfer_err         = false;   /* clear before the ISR can set it */
         p_ctrl->p_transfer_data      = write_read_params.p_dest;
         p_ctrl->transfer_data_bytes = write_read_params.dest_bytes;
 
@@ -367,7 +386,15 @@ fsp_err_t rs_i2c_if_bus_write_read (rs_i2c_if_ctrl_t * const                  p_
     {
         err = rs_i2c_if_os_semaphore_acquire(p_ctrl->p_bus->p_blocking_semaphore,
                                               p_ctrl->p_cfg->semaphore_timeout);
-        if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
+        if (FSP_SUCCESS == err)
+        {
+            /* The callback gives the semaphore for errors too; report them. */
+            if (p_ctrl->transfer_err)
+            {
+                err = FSP_ERR_ABORTED;
+            }
+        }
+        else if ((FSP_ERR_TIMEOUT == err) && (NULL != p_driver_instance->p_api->abort))
         {
             (void) p_driver_instance->p_api->abort(p_driver_instance->p_ctrl);
         }
@@ -424,10 +451,13 @@ void rs_i2c_if_callback (i2c_master_callback_args_t * p_args)
         case I2C_MASTER_EVENT_ABORTED:
         default:
         {
-            /* Safely abort RA I2C driver */
-            p_driver_instance->p_api->abort(p_driver_instance->p_ctrl);
-            comms_i2c_args.event = RS_I2C_IF_EVENT_ERROR;
-
+            /* Do not call abort() here: if the driver re-enters this callback from
+             * abort(), the recursion would overflow the ISR stack. Record the
+             * failure and let the waiting task handle recovery. */
+            comms_i2c_args.event        = RS_I2C_IF_EVENT_ERROR;
+            p_ctrl->p_transfer_data     = NULL;     /* drop any pending restart-read */
+            p_ctrl->transfer_data_bytes = 0U;
+            p_ctrl->transfer_err        = true;     /* checked by the task after the semaphore */
             break;
         }
     }
@@ -476,19 +506,36 @@ void rs_i2c_if_process_in_callback (rs_i2c_if_ctrl_t * const p_api_ctrl, rs_i2c_
 {
     rs_i2c_if_instance_ctrl_t * p_ctrl = (rs_i2c_if_instance_ctrl_t *) p_api_ctrl;
 
-#if BSP_CFG_RTOS
-    if (NULL != p_ctrl->p_bus->p_blocking_semaphore)
+    /* Runs in ISR context: never dereference unchecked pointers. */
+    if ((NULL == p_ctrl) || (NULL == p_args))
     {
-        /* Release a semaphore for blocking */
-        rs_i2c_if_os_semaphore_release_from_ISR(p_ctrl->p_bus->p_blocking_semaphore);
+        return;
     }
-#endif
 
+    /* Latch the result first, so the waiting task (and the user callback) see a consistent state. */
+    p_ctrl->transfer_err = (RS_I2C_IF_EVENT_ERROR == p_args->event);
+
+    if (p_ctrl->transfer_err)
+    {
+        /* Never leave a restart-read pending after a failed transfer. */
+        p_ctrl->p_transfer_data     = NULL;
+        p_ctrl->transfer_data_bytes = 0U;
+    }
+
+    /* Call the user callback before waking the task. */
     if (NULL != p_ctrl->p_callback)
     {
-        /* Call user callback */
         p_ctrl->p_callback(p_args);
     }
+
+#if BSP_CFG_RTOS
+    /* Release the blocking semaphore last. The give may fail if the binary
+     * semaphore is already given; that is harmless, so the result is ignored. */
+    if ((NULL != p_ctrl->p_bus) && (NULL != p_ctrl->p_bus->p_blocking_semaphore))
+    {
+        (void) rs_i2c_if_os_semaphore_release_from_ISR(p_ctrl->p_bus->p_blocking_semaphore);
+    }
+#endif
 }
 
 /*******************************************************************************************************************//**

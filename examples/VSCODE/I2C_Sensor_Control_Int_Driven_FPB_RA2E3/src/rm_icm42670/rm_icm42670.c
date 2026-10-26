@@ -28,7 +28,7 @@
 #define RM_ICM42670_REG_DATA_PPG_PS_GAIN         (0x09)
 
 /* Definitions of Commands */
-#define RM_ICM42670_COMMAND_SOFTWARE_RESET       (0x80)
+#define RM_ICM42670_COMMAND_SOFTWARE_RESET       (0x10)
 
 /* Definitions of Register address */
 #define RM_ICM42670_REG_ADDR_MCLK_RDY            (0x00) // 0: Indicates internal clock is currently not running;1: Indicates internal clock is currently running

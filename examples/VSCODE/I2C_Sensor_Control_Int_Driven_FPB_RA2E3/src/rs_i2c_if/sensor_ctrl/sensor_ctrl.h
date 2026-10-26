@@ -18,29 +18,22 @@
 #include "semphr.h"
 #endif
 
- /* @brief sensor interrupt-driven data-read context. */
 typedef struct st_rs_i2c_if_sensor_read_context
 {
+    rm_icm42670_instance_ctrl_t * p_ctrl;
+    rm_icm42670_api_t const     * p_api;
+
+    rm_icm42670_raw_data_t raw_data;
+
 #if BSP_CFG_RTOS == 2
     SemaphoreHandle_t irq_semaphore;
     StaticSemaphore_t irq_semaphore_memory;
 #else
     volatile bool irq_flag;
 #endif
-    rm_icm42670_instance_ctrl_t   * p_ctrl;
-    rm_icm42670_cfg_t       const * p_cfg;
-    external_irq_instance_t const * p_irq;
-    bool initialized;
-}rs_i2c_if_sensor_read_context_t;
 
-/* @brief Waits for sensor data-ready interrupt and reads data. */
-fsp_err_t rs_i2c_if_SensorDataRead(
-    rs_i2c_if_sensor_read_context_t * const  p_context,
-    void const * const                       p_sensor_instance,
-    void const * const                       p_interrupt_cfg,
-    external_irq_instance_t const * const    p_irq,
-    void * const                             p_sensor_data,
-    uint32_t                                 timeout_ms);
+    bool initialized;
+} rs_i2c_if_sensor_read_context_t;
 
 /*******************************************************************************************************************//**
  * @brief SRAM objects required by rs_i2c_if_SensorDataRead().
@@ -50,23 +43,36 @@ fsp_err_t rs_i2c_if_SensorDataRead(
  **********************************************************************************************************************/
 typedef struct st_rs_i2c_if_sensor_ctrl
 {
-    rs_i2c_if_instance_t                  i2c_instance;
-    rs_i2c_if_instance_ctrl_t             i2c_ctrl;
-    rs_i2c_if_cfg_t                       i2c_cfg;
-    i2c_master_cfg_t                      i2c_hal_cfg;
-    rs_i2c_if_bus_extended_cfg_t          i2c_bus_cfg;
+    /* RS I2C interface */
+    rs_i2c_if_instance_t          i2c_instance;
+    rs_i2c_if_instance_ctrl_t     i2c_ctrl;
+    rs_i2c_if_cfg_t               i2c_cfg;
+    i2c_master_cfg_t              i2c_hal_cfg;
+    rs_i2c_if_bus_extended_cfg_t  i2c_bus_cfg;
 
-    rm_icm42670_instance_t                sensor_instance;
-    rm_icm42670_instance_ctrl_t           sensor_ctrl;
-    rm_icm42670_cfg_t                     sensor_cfg;
+    /* Sensor */
+    rm_icm42670_instance_t        sensor_instance;
+    rm_icm42670_instance_ctrl_t   sensor_ctrl;
+    rm_icm42670_cfg_t             sensor_cfg;
 
-    external_irq_instance_t               irq_instance;
-    icu_instance_ctrl_t                   irq_ctrl;
-    external_irq_cfg_t                    irq_cfg;
+    /* Data-ready IRQ */
+    external_irq_instance_t       irq_instance;
+    icu_instance_ctrl_t           irq_ctrl;
+    external_irq_cfg_t            irq_cfg;
 
-    rs_i2c_if_sensor_read_context_t       sensor_context;
-    rm_icm42670_accel_data_t              sensor_data;
+    /* Runtime sensor-read state */
+    rs_i2c_if_sensor_read_context_t sensor_context;
+    rm_icm42670_accel_data_t        sensor_data;
 } rs_i2c_if_sensor_ctrl_t;
+
+/* @brief Waits for sensor data-ready interrupt and reads data. */
+fsp_err_t rs_i2c_if_SensorDataRead(
+    rs_i2c_if_sensor_read_context_t * const  p_context,
+    void const * const                       p_sensor_instance,
+    void const * const                       p_interrupt_cfg,
+    external_irq_instance_t const * const    p_irq,
+    void * const                             p_sensor_data,
+    uint32_t                                 timeout_ms);
 
 /** @brief Generates the configurations required for sensor control. */
 fsp_err_t rs_i2c_if_SensorConfigGen (
