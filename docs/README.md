@@ -1,4 +1,4 @@
-# RS I2C Controller with Interrupt-Driven Control
+# I2C Controller with Interrupt-Driven Control
 
 ## Table of Contents
 * [1. Introduction](#1-introduction)
