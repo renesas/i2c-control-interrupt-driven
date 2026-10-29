@@ -1651,14 +1651,13 @@ checking.</td>
 lower-level bus validation succeed.</li>
 <li>The failure path clears the initialized control-block
 references.</li>
-<li><h2 id="if-rs_i2c_if_bus_os_init-creates-synchronization-objects-and-a-later-bus-status-check-fails-their-ownership-and-cleanup-behavior-should-be-explicitly-defined-the-corresponding-cleanup-routine-should-be-called-if-the-objects-are-owned-by-this-instance">If
-<code>rs_i2c_if_bus_os_init()</code> creates synchronization objects and
-a later bus-status check fails, their ownership and cleanup behavior
-should be explicitly defined. The corresponding cleanup routine should
-be called if the objects are owned by this instance.</h2>
-<h3 id="107-rs_i2c_if_ctrl_close">10.7.
-<code>rs_i2c_if_ctrl_Close</code></h3></li>
+<li>If <code>rs_i2c_if_bus_os_init()</code> creates synchronization
+objects and a later bus-status check fails, their ownership and cleanup
+behavior should be explicitly defined. The corresponding cleanup routine
+should be called if the objects are owned by this instance.</li>
 </ul>
+<h3 id="107-rs_i2c_if_ctrl_close">10.7.
+<code>rs_i2c_if_ctrl_Close</code></h3>
 <p><strong>Implements:</strong> <code>rs_i2c_if_api_t::close</code></p>
 <p>Closes an <code>rs_i2c_if</code> instance, removes its shared-bus
 selection when applicable, and clears its runtime control state.</p>

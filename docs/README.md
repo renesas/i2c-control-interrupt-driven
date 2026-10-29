@@ -829,7 +829,7 @@ p_ctrl->p_context         = NULL;
 - The open marker is written only after OS initialization and lower-level bus validation succeed.
 - The failure path clears the initialized control-block references.
 - If `rs_i2c_if_bus_os_init()` creates synchronization objects and a later bus-status check fails, their ownership and cleanup behavior should be explicitly defined. The corresponding cleanup routine should be called if the objects are owned by this instance.
----
+
 ### 10.7. `rs_i2c_if_ctrl_Close`
 
 **Implements:** `rs_i2c_if_api_t::close`
