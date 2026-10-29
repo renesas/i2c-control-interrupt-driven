@@ -915,7 +915,7 @@ This demonstration reads motion-sensor data and displays it on a UART terminal.
 |I2C-SCL          | #3               | #3                         |P400 (SCL)    |
 |I2C-SDA          | #4               | #4                         |P401 (SDA)    |
 
-**Note:** Solder E26, E28, E46, and E47 to connect the MCU UART interface to the J-Link Virtual COM Port.
+**Note:** Ensure E26, E28, E46, and E47 are connected to enable MCU UART communication through the J-Link Virtual COM Port.
 
 ### 11.2. Importing and Building Demonstration Project
 
