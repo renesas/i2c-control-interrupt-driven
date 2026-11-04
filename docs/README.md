@@ -492,6 +492,7 @@ The reference implementation targets the **FPB-RA6E2**, **FPB-RA4E2** and **FPB-
 ### Required Non-Default FSP Settings
 
 The following FSP Stack Configurator settings must be configured correctly for the module to operate. These are values that differ from FSP defaults and must be set in `configuration.xml` when not using the preset configuration.
+
 | Driver | Property | Required Value | Reason |
 |---|---|---|---|
 | `r_iic_b_master/I2C ` | Channel| 0 | Select I2C channel|

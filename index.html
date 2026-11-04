@@ -983,23 +983,92 @@ Settings</h3>
 <p>The following FSP Stack Configurator settings must be configured
 correctly for the module to operate. These are values that differ from
 FSP defaults and must be set in <code>configuration.xml</code> when not
-using the preset configuration. | Driver | Property | Required Value |
-Reason | |—|—|—|—| | <code>r_iic_b_master/I2C</code> | Channel| 0 |
-Select I2C channel| | <code>r_iic_b_master/I2C</code> | Rate | Fast-mode
-Plus/Fast-mode | Required for I2C mode setup| |
-<code>r_iic_b_master/I2C</code> | Slave Address | 0x68 | Required for
-I2c address setup| | <code>r_icu/IRQ</code> | Channel| 0;7 | Select IRQ
-channel| | <code>r_icu/IRQ</code> | Trigger| Rising | Required for
-trigger polarity| | <code>r_icu/IRQ</code> | Callback |
-external_irq_callback | Required for IRQ callback function setup| |
-<code>r_sci_uart</code> | Name | g_uart_jlob_vcom | Module name ; must
-not be changed | | <code>r_sci_uart</code> | Channel | 0;9 | Select UART
-channel, channel 0/9 connected to J-Link Virtual COM port on the
-reference board| | <code>r_sci_uart</code> | Callback |
-uart_jlob_vcom_callback | Module-owned callback; must not be changed | |
-<code>r_sci_uart</code> | Operating mode | Asynchronous | Required for
-non-blocking UART write | | <code>r_sci_uart</code> | Baud rate | 115200
-| Set baud rate |</p>
+using the preset configuration.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Driver</th>
+<th>Property</th>
+<th>Required Value</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r_iic_b_master/I2C</code></td>
+<td>Channel</td>
+<td>0</td>
+<td>Select I2C channel</td>
+</tr>
+<tr>
+<td><code>r_iic_b_master/I2C</code></td>
+<td>Rate</td>
+<td>Fast-mode Plus/Fast-mode</td>
+<td>Required for I2C mode setup</td>
+</tr>
+<tr>
+<td><code>r_iic_b_master/I2C</code></td>
+<td>Slave Address</td>
+<td>0x68</td>
+<td>Required for I2c address setup</td>
+</tr>
+<tr>
+<td><code>r_icu/IRQ</code></td>
+<td>Channel</td>
+<td>0;7</td>
+<td>Select IRQ channel</td>
+</tr>
+<tr>
+<td><code>r_icu/IRQ</code></td>
+<td>Trigger</td>
+<td>Rising</td>
+<td>Required for trigger polarity</td>
+</tr>
+<tr>
+<td><code>r_icu/IRQ</code></td>
+<td>Callback</td>
+<td>external_irq_callback</td>
+<td>Required for IRQ callback function setup</td>
+</tr>
+<tr>
+<td><code>r_sci_uart</code></td>
+<td>Name</td>
+<td>g_uart_jlob_vcom</td>
+<td>Module name ; must not be changed</td>
+</tr>
+<tr>
+<td><code>r_sci_uart</code></td>
+<td>Channel</td>
+<td>0;9</td>
+<td>Select UART channel, channel 0/9 connected to J-Link Virtual COM
+port on the reference board</td>
+</tr>
+<tr>
+<td><code>r_sci_uart</code></td>
+<td>Callback</td>
+<td>uart_jlob_vcom_callback</td>
+<td>Module-owned callback; must not be changed</td>
+</tr>
+<tr>
+<td><code>r_sci_uart</code></td>
+<td>Operating mode</td>
+<td>Asynchronous</td>
+<td>Required for non-blocking UART write</td>
+</tr>
+<tr>
+<td><code>r_sci_uart</code></td>
+<td>Baud rate</td>
+<td>115200</td>
+<td>Set baud rate</td>
+</tr>
+</tbody>
+</table>
 <h2 id="10-public-functions--where-to-start">10. Public Functions —
 Where to Start</h2>
 <p>All public functions use the naming pattern
