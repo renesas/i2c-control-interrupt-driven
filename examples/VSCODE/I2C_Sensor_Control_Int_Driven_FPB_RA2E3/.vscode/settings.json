@@ -28,5 +28,6 @@
     "--compile-commands-dir=${workspaceFolder}",
     "--background-index"
   ],
-  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+  "clangd.path": "${config:renesas-platform.crossProbeClangdPath}"
 }

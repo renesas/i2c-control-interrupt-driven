@@ -12,7 +12,7 @@
     <option key="#FSPVersion#" value="6.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6e2_fpb##|Renesas##BSP##Board##ra4e2_fpb##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
-    <option key="#ToolchainVersion#" value="21.1.1"/>
+    <option key="#ToolchainVersion#" value=""/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra4e2.R7FA4E2B93CFM">
@@ -217,6 +217,7 @@
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
+  <raLinkMapConfiguration/>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
@@ -470,9 +471,6 @@
       <configSetting altId="p101.i3c_fslash_iic.i3c_sda" configurationId="p101"/>
       <configSetting altId="p101.gpio_speed.gpio_speed_h" configurationId="p101.gpio_drivecapacity"/>
       <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
-      <configSetting altId="p102.sci0.sck0" configurationId="p102"/>
-      <configSetting altId="p102.gpio_speed.gpio_speed_h" configurationId="p102.gpio_drivecapacity"/>
-      <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
       <configSetting altId="p105.irq.irq0" configurationId="p105"/>
       <configSetting altId="p105.gpio_irq.gpio_irq_enabled" configurationId="p105.gpio_irq"/>
       <configSetting altId="p105.gpio_mode.gpio_mode_irq" configurationId="p105.gpio_mode"/>
@@ -483,12 +481,6 @@
       <configSetting altId="p108.jtag_fslash_swd.swdio" configurationId="p108"/>
       <configSetting altId="p108.gpio_speed.gpio_speed_h" configurationId="p108.gpio_drivecapacity"/>
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
-      <configSetting altId="p109.sci9.txd9" configurationId="p109"/>
-      <configSetting altId="p109.gpio_speed.gpio_speed_h" configurationId="p109.gpio_drivecapacity"/>
-      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
-      <configSetting altId="p110.sci9.rxd9" configurationId="p110"/>
-      <configSetting altId="p110.gpio_speed.gpio_speed_h" configurationId="p110.gpio_drivecapacity"/>
-      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
       <configSetting altId="p111.input" configurationId="p111"/>
       <configSetting altId="p111.gpio_mode.gpio_mode_in" configurationId="p111.gpio_mode"/>
       <configSetting altId="p113.input" configurationId="p113"/>
@@ -535,15 +527,10 @@
       <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
       <configSetting altId="p500.input" configurationId="p500"/>
       <configSetting altId="p500.gpio_mode.gpio_mode_in" configurationId="p500.gpio_mode"/>
-      <configSetting altId="sci0.mode.simplespi.b" configurationId="sci0.mode"/>
-      <configSetting altId="sci0.pairing.b" configurationId="sci0.pairing"/>
+      <configSetting altId="sci0.mode.asynchronousuart.free" configurationId="sci0.mode"/>
       <configSetting altId="sci0.rxd0.p410" configurationId="sci0.rxd0"/>
-      <configSetting altId="sci0.sck0.p102" configurationId="sci0.sck0"/>
       <configSetting altId="sci0.txd0.p411" configurationId="sci0.txd0"/>
-      <configSetting altId="sci9.mode.simplei2c.b" configurationId="sci9.mode"/>
       <configSetting altId="sci9.pairing.b" configurationId="sci9.pairing"/>
-      <configSetting altId="sci9.rxd9.p110" configurationId="sci9.rxd9"/>
-      <configSetting altId="sci9.txd9.p109" configurationId="sci9.txd9"/>
     </pincfg>
     <pincfg active="false" name="R7FA4E2B93CFM.pincfg" selected="false" symbol="">
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode"/>

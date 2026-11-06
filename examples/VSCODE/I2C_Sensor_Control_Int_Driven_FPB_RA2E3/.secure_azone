@@ -11,10 +11,6 @@
             <slot name="P014.CM23" secure="false"/>
         </peripheral>
         <peripheral name="PORT1.CM23" group="PORT">
-            <slot name="P100.CM23" secure="false"/>
-            <slot name="P101.CM23" secure="false"/>
-            <slot name="P102.CM23" secure="false"/>
-            <slot name="P103.CM23" secure="false"/>
             <slot name="P104.CM23" secure="false"/>
             <slot name="P108.CM23" secure="false"/>
             <slot name="P109.CM23" secure="false"/>

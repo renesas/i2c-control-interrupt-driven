@@ -12,7 +12,7 @@
     <option key="#FSPVersion#" value="6.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e3_fpb##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
-    <option key="#ToolchainVersion#" value="21.1.1"/>
+    <option key="#ToolchainVersion#" value=""/>
   </generalSettings>
   <raBspConfiguration/>
   <raClockConfiguration>
@@ -52,10 +52,6 @@
       <configSetting altId="p012.gpio_mode.gpio_mode_an" configurationId="p012.gpio_mode"/>
       <configSetting altId="p013.gpio_mode.gpio_mode_an" configurationId="p013.gpio_mode"/>
       <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
-      <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode"/>
-      <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
-      <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
-      <configSetting altId="p103.gpio_mode.gpio_mode_peripheral" configurationId="p103.gpio_mode"/>
       <configSetting altId="p104.output.low" configurationId="p104"/>
       <configSetting altId="p104.gpio_mode.gpio_mode_out.low" configurationId="p104.gpio_mode"/>
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
@@ -96,10 +92,6 @@
       <configSetting altId="p914.gpio_mode.gpio_mode_out.low" configurationId="p914.gpio_mode"/>
       <configSetting altId="p915.output.low" configurationId="p915"/>
       <configSetting altId="p915.gpio_mode.gpio_mode_out.low" configurationId="p915.gpio_mode"/>
-      <configSetting altId="sci0.cts_rts0.p103" configurationId="sci0.cts_rts0" peripheral="SCI0"/>
-      <configSetting altId="sci0.rxd0.p100" configurationId="sci0.rxd0" peripheral="SCI0"/>
-      <configSetting altId="sci0.sck0.p102" configurationId="sci0.sck0" peripheral="SCI0"/>
-      <configSetting altId="sci0.txd0.p101" configurationId="sci0.txd0" peripheral="SCI0"/>
       <configSetting altId="sci9.rxd9.p110" configurationId="sci9.rxd9" isUsedByDriver="true" peripheral="SCI9"/>
       <configSetting altId="sci9.txd9.p109" configurationId="sci9.txd9" isUsedByDriver="true" peripheral="SCI9"/>
     </pincfg>
