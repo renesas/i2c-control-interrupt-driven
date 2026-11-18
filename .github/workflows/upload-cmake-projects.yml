@@ -2,9 +2,9 @@ name: Upload changed CMake projects
 
 on:
   push:
-    # Change "main" if the GitLab release branch is mirrored to another GitHub branch.
+    # Change "release" if the GitLab release branch is mirrored to another GitHub branch.
     branches:
-      - main
+      - public-main
     paths:
       - "examples/VSCODE/**"
       - "scripts/upload_cmake.ps1"
