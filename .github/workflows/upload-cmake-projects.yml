@@ -1,0 +1,337 @@
+name: Upload changed CMake projects
+
+on:
+  push:
+    # Change "main" if the GitLab release branch is mirrored to another GitHub branch.
+    branches:
+      - main
+    paths:
+      - "examples/VSCODE/**"
+      - "scripts/upload_cmake.ps1"
+      - ".github/workflows/upload-cmake-projects.yml"
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target Renesas 365 environment"
+        required: true
+        default: "Dev"
+        type: choice
+        options:
+          - Dev
+          - UAT
+          - Prod
+      dry_run:
+        description: "Preview operations without uploads or mutations"
+        required: true
+        default: true
+        type: boolean
+      upload_scope:
+        description: "Upload all projects or only projects changed in the latest commit"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - changed
+
+permissions:
+  contents: read
+
+# Prevent two mirrored pushes from updating Renesas 365 at the same time.
+concurrency:
+  group: renesas365-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PROJECT_ROOT: examples/VSCODE
+  UPLOAD_SCRIPT: scripts/upload_cmake.ps1
+  DEFAULT_ENVIRONMENT: Dev
+  DEFAULT_ARTIFACT_VERSION: fsp_6.5.0
+
+jobs:
+  discover:
+    name: Discover projects to upload
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.projects.outputs.matrix }}
+      count: ${{ steps.projects.outputs.count }}
+      target_environment: ${{ steps.settings.outputs.target_environment }}
+      dry_run: ${{ steps.settings.outputs.dry_run }}
+
+    steps:
+      - name: Check out mirrored repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve run settings
+        id: settings
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_ENVIRONMENT: ${{ inputs.environment }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            target_environment="${INPUT_ENVIRONMENT:-Dev}"
+            dry_run="${INPUT_DRY_RUN:-true}"
+          else
+            # Mirrored pushes publish to Dev by default.
+            target_environment="${DEFAULT_ENVIRONMENT}"
+            dry_run="false"
+          fi
+
+          echo "target_environment=$target_environment" >> "$GITHUB_OUTPUT"
+          echo "dry_run=$dry_run" >> "$GITHUB_OUTPUT"
+
+      - name: Build dynamic project matrix
+        id: projects
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+          UPLOAD_SCOPE: ${{ inputs.upload_scope }}
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $root = Join-Path $env:GITHUB_WORKSPACE $env:PROJECT_ROOT
+          if (-not (Test-Path -LiteralPath $root -PathType Container)) {
+              throw "Project root was not found: $root"
+          }
+
+          # If the upload script or this workflow changes, upload every project because
+          # the publishing behavior may have changed.
+          $uploadAll = $env:EVENT_NAME -eq "workflow_dispatch" -and $env:UPLOAD_SCOPE -ne "changed"
+          $changedFiles = @()
+
+          if (-not $uploadAll) {
+              $before = $env:BEFORE_SHA
+              $after = $env:CURRENT_SHA
+              $zeroSha = "0000000000000000000000000000000000000000"
+
+              if ([string]::IsNullOrWhiteSpace($before) -or $before -eq $zeroSha) {
+                  # First mirrored push or a newly created branch.
+                  $changedFiles = @(git show --pretty="" --name-only $after)
+              }
+              else {
+                  $changedFiles = @(git diff --name-only $before $after)
+              }
+
+              if ($LASTEXITCODE -ne 0) {
+                  throw "Unable to determine files changed between '$before' and '$after'."
+              }
+
+              if ($changedFiles -contains $env:UPLOAD_SCRIPT -or
+                  $changedFiles -contains ".github/workflows/upload-cmake-projects.yml") {
+                  $uploadAll = $true
+              }
+          }
+
+          if ($uploadAll) {
+              $directories = @(Get-ChildItem -LiteralPath $root -Directory | Sort-Object Name)
+          }
+          else {
+              $prefix = ($env:PROJECT_ROOT.TrimEnd('/') + '/')
+              $directoryNames = @(
+                  $changedFiles |
+                      Where-Object { $_ -like "$prefix*" } |
+                      ForEach-Object {
+                          $relative = $_.Substring($prefix.Length)
+                          ($relative -split '/')[0]
+                      } |
+                      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+                      Sort-Object -Unique
+              )
+
+              $directories = @(
+                  foreach ($directoryName in $directoryNames) {
+                      $path = Join-Path $root $directoryName
+                      if (Test-Path -LiteralPath $path -PathType Container) {
+                          Get-Item -LiteralPath $path
+                      }
+                  }
+              )
+          }
+
+          $matrix = @()
+          foreach ($directory in $directories) {
+              # Expected directory format:
+              #   <software_project_name_with_underscores>_<evaluation_kit>
+              # Example:
+              #   I2C_Sensor_Control_Int_Driven_FPB_RA2E3
+              if ($directory.Name -notmatch '^(?<project>.+)_(?<kit>FPB_RA[A-Za-z0-9]+)$') {
+                  Write-Warning "Skipping '$($directory.Name)': expected suffix such as _FPB_RA2E3."
+                  continue
+              }
+
+              $softwareProjectName = $Matches.project -replace '_', ' '
+              $evalKitName = $Matches.kit -replace '_', '-'
+
+              $matrix += [ordered]@{
+                  directory             = $directory.Name
+                  software_project_name = $softwareProjectName
+                  eval_kit              = $evalKitName
+                  zip_name              = "$($directory.Name).zip"
+              }
+          }
+
+          $matrixJson = @{ include = $matrix } | ConvertTo-Json -Depth 5 -Compress
+          "matrix=$matrixJson" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "count=$($matrix.Count)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+          Write-Host "Projects selected: $($matrix.Count)"
+          $matrix | ForEach-Object {
+              Write-Host "  $($_.directory) -> '$($_.software_project_name)' / '$($_.eval_kit)'"
+          }
+
+  upload:
+    name: ${{ matrix.software_project_name }} / ${{ matrix.eval_kit }}
+    needs: discover
+    if: needs.discover.outputs.count != '0'
+    runs-on: windows-latest
+
+    # Use GitHub Environments named Dev, UAT, and Prod. Each environment should
+    # define a RENESAS365_TOKEN secret. Protect UAT/Prod with required reviewers.
+    environment: ${{ needs.discover.outputs.target_environment }}
+
+    strategy:
+      fail-fast: false
+      # The same software project can have several evaluation kits. Serial execution
+      # avoids races when the first board creates the shared software project.
+      max-parallel: 1
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+
+    steps:
+      - name: Check out mirrored repository
+        uses: actions/checkout@v4
+
+      - name: Validate inputs and PowerShell
+        shell: pwsh
+        env:
+          RENESAS365_TOKEN: ${{ secrets.RENESAS365_TOKEN }}
+          PROJECT_DIRECTORY: ${{ matrix.directory }}
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          if ($PSVersionTable.PSVersion.Major -lt 7) {
+              throw "PowerShell 7 or later is required. Current version: $($PSVersionTable.PSVersion)"
+          }
+
+          if ([string]::IsNullOrWhiteSpace($env:RENESAS365_TOKEN)) {
+              throw "RENESAS365_TOKEN is not configured in the selected GitHub Environment."
+          }
+
+          Write-Output "::add-mask::$env:RENESAS365_TOKEN"
+
+          $scriptPath = Join-Path $env:GITHUB_WORKSPACE $env:UPLOAD_SCRIPT
+          $projectPath = Join-Path (Join-Path $env:GITHUB_WORKSPACE $env:PROJECT_ROOT) $env:PROJECT_DIRECTORY
+
+          if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+              throw "Upload script was not found: $scriptPath"
+          }
+
+          if (-not (Test-Path -LiteralPath $projectPath -PathType Container)) {
+              throw "Project directory was not found: $projectPath"
+          }
+
+          Write-Host "PowerShell: $($PSVersionTable.PSVersion)"
+          Write-Host "Project: $projectPath"
+
+      - name: Create project ZIP
+        id: package
+        shell: pwsh
+        env:
+          PROJECT_DIRECTORY: ${{ matrix.directory }}
+          ZIP_NAME: ${{ matrix.zip_name }}
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $projectPath = Join-Path (Join-Path $env:GITHUB_WORKSPACE $env:PROJECT_ROOT) $env:PROJECT_DIRECTORY
+          $zipPath = Join-Path $env:RUNNER_TEMP $env:ZIP_NAME
+
+          if (Test-Path -LiteralPath $zipPath) {
+              Remove-Item -LiteralPath $zipPath -Force
+          }
+
+          Compress-Archive `
+              -Path (Join-Path $projectPath '*') `
+              -DestinationPath $zipPath `
+              -CompressionLevel Optimal `
+              -Force
+
+          $zip = Get-Item -LiteralPath $zipPath
+          if ($zip.Length -le 0) {
+              throw "The generated ZIP is empty: $zipPath"
+          }
+
+          "zip_path=$zipPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Write-Host "Created $zipPath ($($zip.Length) bytes)."
+
+      - name: Upload project to Renesas 365
+        shell: pwsh
+        env:
+          RENESAS365_TOKEN: ${{ secrets.RENESAS365_TOKEN }}
+          TARGET_ENVIRONMENT: ${{ needs.discover.outputs.target_environment }}
+          DRY_RUN: ${{ needs.discover.outputs.dry_run }}
+          SOFTWARE_PROJECT_NAME: ${{ matrix.software_project_name }}
+          EVAL_KIT_NAME: ${{ matrix.eval_kit }}
+          ZIP_PATH: ${{ steps.package.outputs.zip_path }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          Write-Output "::add-mask::$env:RENESAS365_TOKEN"
+
+          $scriptPath = Join-Path $env:GITHUB_WORKSPACE $env:UPLOAD_SCRIPT
+          $resultRecord = @{}
+
+          $parameters = @{
+              Environment         = $env:TARGET_ENVIRONMENT
+              Token               = $env:RENESAS365_TOKEN
+              SoftwareProjectName = $env:SOFTWARE_PROJECT_NAME
+              EvalKitName         = $env:EVAL_KIT_NAME
+              ZipFilePath         = $env:ZIP_PATH
+              ArtifactVersion     = $env:DEFAULT_ARTIFACT_VERSION
+              Family              = "RA"
+              Framework           = "FSP"
+              ProjectType         = "EXAMPLE"
+              ResultRecord        = $resultRecord
+          }
+
+          if ($env:DRY_RUN -eq "true") {
+              $parameters.DryRun = $true
+          }
+
+          Write-Host "Source commit     : $env:GITHUB_SHA"
+          Write-Host "Environment       : $env:TARGET_ENVIRONMENT"
+          Write-Host "Dry run           : $env:DRY_RUN"
+          Write-Host "Software project  : $env:SOFTWARE_PROJECT_NAME"
+          Write-Host "Evaluation kit    : $env:EVAL_KIT_NAME"
+          Write-Host "ZIP                : $env:ZIP_PATH"
+
+          & $scriptPath @parameters
+
+          if (-not $?) {
+              throw "upload_cmake.ps1 reported a failure."
+          }
+
+          if ($resultRecord.Result -eq "Failed") {
+              throw "Upload failed. Status: $($resultRecord.Status)"
+          }
+
+          Write-Host "Result: $($resultRecord.Result)"
+          Write-Host "Status: $($resultRecord.Status)"
+          if ($resultRecord.CmakeUrl) {
+              Write-Host "CMake URL: $($resultRecord.CmakeUrl)"
+          }
+          
+  no-changes:
+    name: No project updates required
+    needs: discover
+    if: needs.discover.outputs.count == '0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report no matching project changes
+        run: echo "No changed project directories matching examples/VSCODE/*_FPB_RA* were found."
